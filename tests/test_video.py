@@ -221,6 +221,48 @@ def test_sample_frames_normal_clip_returns_exactly_n(tmp_path):
 
 
 @requires_ffmpeg
+def test_sample_frames_uses_injected_meta_and_skips_probe(tmp_path, monkeypatch):
+    """A caller that already parsed the container (photogen's own mvhd/tkhd
+    probe, in particular) must get sample_frames to use ITS answer rather
+    than a second, possibly-disagreeing one from this module's ffprobe-based
+    probe() — duration feeds the fps filter, so two probes could sample
+    different frames and bake a different frozen clip-wide filter."""
+    def _boom(_src):
+        raise AssertionError("probe() must not be called when meta is injected")
+    monkeypatch.setattr(video, "probe", _boom)
+
+    src = tmp_path / "src.mp4"
+    video._run([
+        "ffmpeg", "-nostdin", "-y", "-f", "lavfi",
+        "-i", "testsrc=size=320x240:rate=10:duration=2",
+        "-c:v", "libx264", "-preset", "ultrafast", str(src),
+    ])
+
+    class _StubMeta:
+        duration_s = 2.0
+        width = 320
+        height = 240
+
+    frames = video.sample_frames(src, n=4, height=120, meta=_StubMeta())
+    assert len(frames) == 4
+    assert frames[0].shape[0] == 120 and frames[0].shape[2] == 3
+
+
+@requires_ffmpeg
+def test_sample_frames_probes_by_default(tmp_path):
+    """Anti-vacuity for the injection test above: with no meta given,
+    sample_frames still calls probe() itself and works exactly as before."""
+    src = tmp_path / "src.mp4"
+    video._run([
+        "ffmpeg", "-nostdin", "-y", "-f", "lavfi",
+        "-i", "testsrc=size=320x240:rate=10:duration=2",
+        "-c:v", "libx264", "-preset", "ultrafast", str(src),
+    ])
+    frames = video.sample_frames(src, n=4, height=120)
+    assert len(frames) == 4
+
+
+@requires_ffmpeg
 def test_run_error_names_the_source_file(tmp_path):
     """A VideoError raised out of a per-video build loop must name which
     file broke — otherwise a failure deep in a large library is untraceable."""

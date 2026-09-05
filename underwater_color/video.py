@@ -238,8 +238,19 @@ def extract_poster(src: Path, dst: Path, *, at: float = 1.0,
     ], context=src)
 
 
-def sample_frames(src: Path, n: int = 12, *, height: int = 240) -> list:
+def sample_frames(src: Path, n: int = 12, *, height: int = 240, meta=None) -> list:
     """Decode ``n`` evenly-spaced frames as small RGB arrays, in one ffmpeg call.
+
+    ``meta``, if given, is used instead of calling ``probe(src)`` — duck-typed:
+    anything with ``.duration_s``, ``.width`` and ``.height`` will do. This
+    exists for a caller that has already parsed the container itself (e.g.
+    photogen's own mvhd/tkhd probe, which knows things this module's ffprobe-
+    based ``probe()`` does not, such as a raw/malformed container's real
+    dimensions): it should not pay for a second probe, and — more importantly
+    — must not risk a second, disagreeing answer. Duration is the input to
+    the fps filter below, so two probes reaching different durations would
+    sample different frames, bake a different frozen filter, and change
+    rendition bytes for a clip where nothing about the correction changed.
 
     Small by design: these only feed percentile statistics, so full resolution
     would cost decode time and memory for no change in the resulting gains.
@@ -273,7 +284,8 @@ def sample_frames(src: Path, n: int = 12, *, height: int = 240) -> list:
     import numpy as np
 
     n = max(1, n)
-    meta = probe(src)
+    if meta is None:
+        meta = probe(src)
     duration = meta.duration_s or 0.0
 
     width: int | None
