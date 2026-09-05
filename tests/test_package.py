@@ -23,3 +23,16 @@ def test_importing_the_package_does_not_import_torch():
          "import underwater_color, sys; print('torch' in sys.modules)"],
         capture_output=True, text=True, check=True)
     assert out.stdout.strip() == "False"
+
+
+def test_the_public_api_is_reachable_from_the_package_root():
+    """Callers import from the package, not its private module layout. A name
+    that only exists on underwater_color.correct is not public API."""
+    import underwater_color as uc
+
+    for name in ("channel_stretch", "hue_shift", "hue_shift_clarity",
+                 "hue_shift_clarity_near", "ancuti_fusion", "dicam_correct",
+                 "channel_gains", "hue_shift_params", "resolve_methods",
+                 "GENERATED_METHODS", "DEFAULT_VARIANTS", "VIDEO_CAPABLE",
+                 "ALL_KEYWORD"):
+        assert hasattr(uc, name), f"{name} is not re-exported"
