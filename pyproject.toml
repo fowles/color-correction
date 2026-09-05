@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: MIT
+[project]
+name = "underwater-color"
+version = "0.1.0"
+description = "Underwater photo and video color correction"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "numpy",
+    "opencv-python>=4.6",
+    "Pillow",
+]
+
+[project.optional-dependencies]
+# DICAM is the one learned method. torch is heavy and most callers want only
+# the closed-form generators, so it is an extra rather than a dependency.
+# There is deliberately no [video] extra: ffmpeg is a system binary, not a
+# wheel, and its absence is reported at runtime by video.preflight().
+dicam = ["torch"]
+
+[project.scripts]
+underwater-color = "underwater_color.cli:main"
+
+[dependency-groups]
+dev = ["pytest", "pytest-xdist>=3.8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-n", "auto"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["underwater_color"]
