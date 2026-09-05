@@ -17,7 +17,8 @@ dependencies = [
 # the closed-form generators, so it is an extra rather than a dependency.
 # There is deliberately no [video] extra: ffmpeg is a system binary, not a
 # wheel, and its absence is reported at runtime by video.preflight().
-dicam = ["torch"]
+# requests lives here too: it is used only to download the DICAM checkpoint.
+dicam = ["torch", "requests"]
 
 [project.scripts]
 underwater-color = "underwater_color.cli:main"
