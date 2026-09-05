@@ -3,7 +3,7 @@
 Underwater photo and video color correction: closed-form and learned methods,
 numpy in and numpy out for stills, one clip-wide ffmpeg filter for video.
 
-Extracted from [photogen](https://github.com/mfk/photogen).
+Extracted from [photogen](https://github.com/fowles/photogen).
 
 ## Install
 

@@ -10,8 +10,21 @@ from __future__ import annotations
 import ast
 import re
 import sys
-import tomllib
 from pathlib import Path
+
+import pytest
+
+try:
+    # tomllib is 3.11+, but pyproject declares requires-python >= 3.10, so on a
+    # 3.10 dev environment a bare import errors this whole module out. Nothing
+    # skips on 3.11+; the fallback is a backport, not a drop in coverage.
+    import tomllib
+except ModuleNotFoundError:  # pragma: no cover - only reachable on Python 3.10
+    tomllib = pytest.importorskip(
+        "tomli",
+        reason="reading pyproject.toml needs tomllib (Python 3.11+) or the "
+               "tomli backport; this package's floor is requires-python >=3.10",
+    )
 
 ROOT = Path(__file__).resolve().parent.parent
 PACKAGE_ROOT = ROOT / "underwater_color"

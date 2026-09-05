@@ -2,10 +2,10 @@
 
 Underwater photo and video colour correction as a library: **numpy in, numpy
 out** for stills, and **one clip-wide ffmpeg filter expression** for video.
-No site, no library, no config, no sidecars — the caller owns files and
+No site, no photo library, no config, no sidecars — the caller owns files and
 metadata, this package owns pixels.
 
-Extracted from [photogen](https://github.com/mfk/photogen), which consumes it
+Extracted from [photogen](https://github.com/fowles/photogen), which consumes it
 as a `uv` **editable path source** (`../color-correction`). A change here is
 live in photogen immediately, with no publish step, so photogen's own suite is
 a second, consumer-level check on anything landed here.

@@ -6,11 +6,29 @@ description = "Underwater photo and video color correction"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
+authors = [{name = "Matt Kulukundis", email = "matt@brontosource.dev"}]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
 dependencies = [
     "numpy",
     "opencv-python>=4.6",
     "Pillow",
 ]
+
+[project.urls]
+# This repo has NO GitHub remote yet — it is a local jj repo, and the URL
+# below is the intended home, not an existing page. Confirm (or create) it
+# before the first upload to PyPI; a dead Homepage link ships otherwise.
+Homepage = "https://github.com/fowles/underwater-color"
+Source = "https://github.com/fowles/underwater-color"
 
 [project.optional-dependencies]
 # DICAM is the one learned method. torch is heavy and most callers want only

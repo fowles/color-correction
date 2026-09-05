@@ -2,7 +2,7 @@
 """The `underwater-color` command line tool.
 
 Run every color-correction variant over files named on the command line,
-writing corrected siblings next to them — no site, no library, no config.
+writing corrected siblings next to them — no site, no photo library, no config.
 """
 from __future__ import annotations
 
