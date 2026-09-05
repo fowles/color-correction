@@ -22,3 +22,14 @@ from underwater_color.correct import (  # noqa: E402,F401
     hue_shift_params,
     resolve_methods,
 )
+from underwater_color.video import (  # noqa: E402,F401
+    VideoError,
+    extract_poster,
+    have_ffmpeg,
+    hue_shift_filter,
+    levels_filter,
+    preflight,
+    sample_frames,
+    transcode,
+    video_filter,
+)

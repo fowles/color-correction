@@ -34,5 +34,7 @@ def test_the_public_api_is_reachable_from_the_package_root():
                  "hue_shift_clarity_near", "ancuti_fusion", "dicam_correct",
                  "channel_gains", "hue_shift_params", "resolve_methods",
                  "GENERATED_METHODS", "DEFAULT_VARIANTS", "VIDEO_CAPABLE",
-                 "ALL_KEYWORD"):
+                 "ALL_KEYWORD", "VideoError", "extract_poster", "have_ffmpeg",
+                 "hue_shift_filter", "levels_filter", "preflight",
+                 "sample_frames", "transcode", "video_filter"):
         assert hasattr(uc, name), f"{name} is not re-exported"
