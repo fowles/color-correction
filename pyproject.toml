@@ -23,7 +23,11 @@ dicam = ["torch"]
 underwater-color = "underwater_color.cli:main"
 
 [dependency-groups]
-dev = ["pytest", "pytest-xdist>=3.8.0"]
+dev = [
+    "pytest",
+    "pytest-xdist>=3.8.0",
+    "torch>=2.14.0",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

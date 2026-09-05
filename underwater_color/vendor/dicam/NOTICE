@@ -1,0 +1,25 @@
+DICAM Network Vendoring Notice
+================================
+
+Source: https://github.com/hfarhaditolie/DICAM
+Commit: c0dba84931533c64eb8597782cf012f4c2a4e6eb
+License: MIT (see LICENSE file)
+
+Classes Included:
+- Inc: Inception-like module with multiple convolution branches
+- Flatten: Flattening layer for channel attention
+- CAM: Channel Attention Module
+- DICAM: Main network architecture for underwater image enhancement
+
+Input/Output Specification:
+- Input: RGB tensor in range [0, 1], shape (N, 3, H, W)
+- Output: RGB tensor in range [0, 1], shape (N, 3, H, W)
+- Network is fully convolutional with no spatial downsampling (all convolutions and pooling use stride 1)
+- Accepts any H×W dimensions (no divisibility requirements)
+
+Checkpoint Loading:
+- Checkpoints are loaded with key 'model_state_dict' via torch.load()
+- Example: torch.load('DICAM_60.pt')['model_state_dict']
+
+Interface:
+- build_default_network(): Returns a DICAM() instance ready for inference

@@ -994,6 +994,7 @@ dicam = [
 dev = [
     { name = "pytest" },
     { name = "pytest-xdist" },
+    { name = "torch" },
 ]
 
 [package.metadata]
@@ -1009,4 +1010,5 @@ provides-extras = ["dicam"]
 dev = [
     { name = "pytest" },
     { name = "pytest-xdist", specifier = ">=3.8.0" },
+    { name = "torch", specifier = ">=2.14.0" },
 ]
