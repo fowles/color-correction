@@ -16,11 +16,13 @@ from underwater_color.correct import (  # noqa: E402,F401
     channel_gains,
     channel_stretch,
     dicam_correct,
+    gray_world,
     hue_shift,
     hue_shift_clarity,
     hue_shift_clarity_near,
     hue_shift_params,
     resolve_methods,
+    white_patch,
 )
 from underwater_color.video import (  # noqa: E402,F401
     VideoError,

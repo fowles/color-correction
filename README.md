@@ -28,6 +28,8 @@ missing ffmpeg is reported at runtime.
 | [`hue-shift-clarity-near`](docs/methods/hue-shift-clarity-near.md) | `hue-shift-clarity` with the clarity additionally gated by post-correction warmth (pooled b\*), so still-blue far regions and haze are left alone. |
 | [`ancuti-fusion`](docs/methods/ancuti-fusion.md) | Ancuti color-balance-and-fusion: red compensation, gray-world white balance, then a multi-scale pyramid fusion of a sharpened and a gamma-corrected input. |
 | [`dicam`](docs/methods/dicam.md) | The one learned method — the DICAM network, run at a capped working size with the correction transferred to native resolution. Needs the `[dicam]` extra and a one-off `underwater-color init`. |
+| [`gray-world`](docs/methods/gray-world.md) | Classical gray-world white balance: in linear light, gain each channel so its mean matches the frame's overall gray. No gain cap; an opt-in baseline, never a default. |
+| [`white-patch`](docs/methods/white-patch.md) | Classical white-patch (max-RGB) white balance: in linear light, gain each channel so its 99th percentile reaches 255. No gain cap; an opt-in baseline, never a default. |
 
 Each method's doc covers how it works and the paper or code it comes from.
 

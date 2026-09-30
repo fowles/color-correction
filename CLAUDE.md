@@ -64,10 +64,12 @@ that says nothing gets.
 a photo actually has is the one a consumer shows (photogen's `shown_method`
 reads it that way). Reordering it changes which correction the world sees.
 
-`gray-world` and `white-patch` were removed on measured evidence — approved 9%
-/ 15% of the times shown against 141 consensus labels, the sole approved
-variant on 1 / 0 photos, and dropping both left top-1 selection unchanged.
-**Do not re-add them.**
+`gray-world` and `white-patch` are opt-in classical baselines, last in
+`GENERATED_METHODS`. They were removed on measured evidence (approved 9% /
+15% of the times shown against 141 consensus labels, the sole approved
+variant on 1 / 0 photos) and restored so they can be compared, not shown.
+**Never add them to `DEFAULT_VARIANTS`**;
+`test_gray_world_and_white_patch_are_never_defaults` enforces it.
 
 **Every `GENERATED_METHODS` entry has `docs/methods/<name>.md`**, citing the
 primary source it comes from or saying it is original to this library. The

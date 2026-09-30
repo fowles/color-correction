@@ -7,6 +7,8 @@ from underwater_color.correct import (
     MAX_CHANNEL_GAIN,
     ancuti_fusion,
     channel_stretch,
+    gray_world,
+    white_patch,
 )
 
 
@@ -85,24 +87,106 @@ def test_channel_stretch_is_near_identity_on_balanced_image():
     assert np.abs(out.astype(int) - arr.astype(int)).mean() < 5
 
 
-def test_generated_methods_are_exactly_the_six_that_earn_their_keep():
-    # gray-world and white-patch were removed 2026-08-15: approved 9% / 15%
-    # of the times shown (0% on noise-risk), never the sole approved variant
-    # on more than 1/141 photos, and dropping both left the selector's top-1
-    # unchanged while costing ~15 GB of the ~46 GB output tree. hue-shift
-    # was added the same day: one global matrix rebuilding red as a
+def test_generated_methods_are_exactly_these_eight():
+    # hue-shift was added 2026-08-15: one global matrix rebuilding red as a
     # hue-rotated mix of R/G/B, angle from mean red, then a per-channel
     # stretch. hue-shift-clarity (2026-08-16) is
     # hue-shift plus a gated luminance-only clarity pass, in for a labeling
     # round. hue-shift-clarity-near (2026-08-17) is the same pass with the
     # gate also scaled by post-correction warmth (b*), so still-blue far
-    # regions get no clarity — in for a larger eval.
+    # regions get no clarity — in for a larger eval. gray-world and
+    # white-patch were removed 2026-08-15 and restored 2026-09-30 as opt-in
+    # classical baselines, last in the order and never in DEFAULT_VARIANTS.
     assert list(GENERATED_METHODS) == [
         "channel-stretch", "hue-shift", "hue-shift-clarity",
         "hue-shift-clarity-near", "ancuti-fusion", "dicam",
+        "gray-world", "white-patch",
     ]
-    assert not hasattr(__import__("underwater_color.correct", fromlist=["x"]), "gray_world")
-    assert not hasattr(__import__("underwater_color.correct", fromlist=["x"]), "white_patch")
+    assert GENERATED_METHODS["gray-world"] is gray_world
+    assert GENERATED_METHODS["white-patch"] is white_patch
+
+
+def test_gray_world_and_white_patch_are_never_defaults():
+    """Against 141 consensus labels they were approved 9% / 15% of the times
+    shown and were the sole approved variant on 1 / 0 photos. They are on the
+    menu for comparison, not for a caller that expresses no preference."""
+    assert "gray-world" not in correct.DEFAULT_VARIANTS
+    assert "white-patch" not in correct.DEFAULT_VARIANTS
+    assert "gray-world" not in correct.VIDEO_CAPABLE
+    assert "white-patch" not in correct.VIDEO_CAPABLE
+
+
+def _gray_world_scene_under(illuminant, n=200_000):
+    """A scene whose reflectances average to exactly gray in LINEAR light,
+    lit by ``illuminant`` and sRGB-encoded. Returns (N, 1, 3) uint8."""
+    rng = np.random.default_rng(5)
+    refl = (rng.lognormal(np.log(0.18), 0.9, (n, 1))
+            * rng.uniform(0.8, 1.2, (n, 3)))
+    refl = np.clip(refl / refl.mean(axis=0) * 0.18, 0, 1)
+    lin = refl * np.asarray(illuminant)  # < 1: no channel clips at capture
+    enc = correct._linear_to_srgb(lin) * 255.0
+    return np.rint(enc).astype(np.uint8).reshape(-1, 1, 3)
+
+
+def _linear_cast(img):
+    """Linear-light channel means, as ratios to green."""
+    m = correct._srgb_to_linear(img.reshape(-1, 3) / 255.0).mean(axis=0)
+    return m / m[1]
+
+
+def test_gray_world_neutralizes_a_gray_world_scene_in_linear_light():
+    """Buchsbaum's gray-world model is in photoreceptor (linear) space: on a
+    scene that truly averages to gray, the correction must remove the cast.
+    Balancing the gamma-encoded values instead overshoots red ~7%."""
+    out = gray_world(_gray_world_scene_under((0.15, 0.6, 0.8)))
+    assert np.abs(_linear_cast(out) - 1).max() < 0.01
+
+
+def test_white_patch_neutralizes_the_white_point_in_linear_light():
+    """Retinex normalizes each waveband to its highest lightness in linear
+    light, so on a scene whose white point is neutral the cast goes. Scaling
+    the sRGB-encoded values instead leaves red ~12% short here, because the
+    sRGB curve is not a pure power law."""
+    out = white_patch(_gray_world_scene_under((0.15, 0.6, 0.8)))
+    assert np.abs(_linear_cast(out) - 1).max() < 0.02
+
+
+def test_gray_world_equalizes_channel_means():
+    rng = np.random.default_rng(2)
+    arr = np.empty((32, 32, 3), dtype=np.uint8)
+    arr[..., 0] = rng.integers(0, 80, size=(32, 32))     # dim red
+    arr[..., 1] = rng.integers(120, 200, size=(32, 32))  # bright green
+    arr[..., 2] = rng.integers(120, 200, size=(32, 32))  # bright blue
+    # Balanced in linear light: each channel's linear mean lands on the gray
+    # (mean of channel means), up to uint8 rounding and red clipping at 255.
+    assert np.abs(_linear_cast(gray_world(arr)) - 1).max() < 0.02
+
+
+def test_gray_world_is_identity_on_a_neutral_image():
+    rng = np.random.default_rng(4)
+    gray = rng.integers(0, 256, size=(32, 32, 1), dtype=np.uint8)
+    arr = np.repeat(gray, 3, axis=2)
+    assert np.array_equal(gray_world(arr), arr)
+
+
+def test_white_patch_maps_each_channels_white_to_255():
+    rng = np.random.default_rng(3)
+    arr = np.empty((64, 64, 3), dtype=np.uint8)
+    arr[..., 0] = rng.integers(0, 81, size=(64, 64))     # red max ~80
+    arr[..., 1] = rng.integers(0, 201, size=(64, 64))
+    arr[..., 2] = rng.integers(0, 256, size=(64, 64))
+    out = white_patch(arr)
+    white = np.percentile(out.reshape(-1, 3), correct.WHITE_PATCH_PCT, axis=0)
+    assert (white >= 253).all()
+    assert out[..., 0].max() >= 240
+
+
+def test_white_patch_only_scales_so_black_stays_black():
+    """A pure gain, no offset: unlike channel-stretch it never lifts or
+    crushes the shadows."""
+    arr = _red_suppressed()
+    arr[0, 0] = 0
+    assert (white_patch(arr)[0, 0] == 0).all()
 
 
 def test_methods_are_deterministic():

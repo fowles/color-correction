@@ -32,6 +32,7 @@ def test_the_public_api_is_reachable_from_the_package_root():
 
     for name in ("channel_stretch", "hue_shift", "hue_shift_clarity",
                  "hue_shift_clarity_near", "ancuti_fusion", "dicam_correct",
+                 "gray_world", "white_patch",
                  "channel_gains", "hue_shift_params", "resolve_methods",
                  "GENERATED_METHODS", "DEFAULT_VARIANTS", "VIDEO_CAPABLE",
                  "ALL_KEYWORD", "VideoError", "extract_poster", "have_ffmpeg",

@@ -15,6 +15,7 @@ import numpy as np
 LOW_PCT = 0.5           # channel-stretch: low percentile mapped to 0
 HIGH_PCT = 99.5         # channel-stretch: high percentile mapped to 255
 MAX_CHANNEL_GAIN = 6.0  # channel-stretch: ceiling on per-channel gain
+WHITE_PATCH_PCT = 99.0  # white-patch: percentile treated as "white"
 
 
 def _percentile_bounds(arr: np.ndarray, low_pct: float,
@@ -54,6 +55,50 @@ def channel_stretch(arr: np.ndarray) -> np.ndarray:
     gains, los = channel_gains(arr)
     out = (arr.astype(np.float32) - los) * gains
     return np.clip(out, 0, 255).astype(np.uint8)
+
+
+# --- gray-world and white-patch ----------------------------------------------
+#
+# The two textbook white balances: one gain per channel, no offset and no gain
+# cap. Both source models describe photoreceptor responses, i.e. LINEAR light,
+# so the gains are measured and applied there: sRGB-encoded values are not
+# proportional to light, and balancing them directly leaves a cast (red ~7%
+# over for gray-world, ~12% under for white-patch on a strong blue-green
+# scene). Opt-in baselines, never defaults — see the note above
+# GENERATED_METHODS for why.
+
+
+def _srgb_to_linear(f01: np.ndarray) -> np.ndarray:
+    """sRGB [0,1] -> linear RGB [0,1] (IEC 61966-2-1)."""
+    return np.where(f01 <= 0.04045, f01 / 12.92, ((f01 + 0.055) / 1.055) ** 2.4)
+
+
+def _linear_to_srgb(lin: np.ndarray) -> np.ndarray:
+    """Linear RGB [0,1] -> sRGB [0,1]."""
+    lin = np.clip(lin, 0.0, 1.0)
+    return np.where(lin <= 0.0031308, lin * 12.92, 1.055 * lin ** (1 / 2.4) - 0.055)
+
+
+def _apply_linear_gains(lin: np.ndarray, gains: np.ndarray) -> np.ndarray:
+    """Scale linear RGB [0,1] per channel, clip, and re-encode to sRGB uint8."""
+    return np.rint(_linear_to_srgb(lin * gains) * 255.0).astype(np.uint8)
+
+
+def gray_world(arr: np.ndarray) -> np.ndarray:
+    """Gray-world white balance (Buchsbaum 1980): in linear light, scale each
+    channel so its mean matches the overall gray (mean of channel means)."""
+    lin = _srgb_to_linear(arr.astype(np.float32) / 255.0)
+    means = lin.reshape(-1, 3).mean(axis=0)
+    gains = float(means.mean()) / np.maximum(means, 1e-6)
+    return _apply_linear_gains(lin, gains)
+
+
+def white_patch(arr: np.ndarray) -> np.ndarray:
+    """White-patch / max-RGB (Land & McCann 1971): in linear light, scale each
+    channel so its WHITE_PATCH_PCT percentile becomes white."""
+    lin = _srgb_to_linear(arr.astype(np.float32) / 255.0)
+    whites = np.percentile(lin.reshape(-1, 3), WHITE_PATCH_PCT, axis=0)
+    return _apply_linear_gains(lin, 1.0 / np.maximum(whites, 1e-6))
 
 
 # --- hue-shift ---------------------------------------------------------------
@@ -266,17 +311,6 @@ WB_PERCENTILE = 5.0           # gray-world illuminant: exclude this % top/bottom
 GAMMA = 2.0                   # input2 gamma (>1 darkens, tames over-bright cast)
 
 
-def _srgb_to_linear(f01: np.ndarray) -> np.ndarray:
-    """sRGB [0,1] -> linear RGB [0,1] (IEC 61966-2-1)."""
-    return np.where(f01 <= 0.04045, f01 / 12.92, ((f01 + 0.055) / 1.055) ** 2.4)
-
-
-def _linear_to_srgb(lin: np.ndarray) -> np.ndarray:
-    """Linear RGB [0,1] -> sRGB [0,1]."""
-    lin = np.clip(lin, 0.0, 1.0)
-    return np.where(lin <= 0.0031308, lin * 12.92, 1.055 * lin ** (1 / 2.4) - 0.055)
-
-
 def _white_balance(arr: np.ndarray) -> np.ndarray:
     """Ancuti color-compensated white balance, returns float32 [0,255].
 
@@ -423,12 +457,11 @@ def resolve_methods(names) -> set[str]:
     return names
 
 
-# gray-world and white-patch were removed 2026-08-15. Against the 141
-# consensus labels in variant-approvals.jsonl they were dead weight: approved
-# 9% / 15% of the times shown (0% on the noise-risk stratum), the sole
-# approved variant on 1 / 0 photos, and dropping both left the selector's
-# top-1 unchanged (86.5% -> 86.4%) — while costing ~15 GB of the ~46 GB
-# output tree and two tiles on every labeling screen. Do not re-add them.
+# gray-world and white-patch were removed 2026-08-15 and restored 2026-09-30
+# as opt-in classical baselines, last in the order. Against the 141 consensus
+# labels in photogen's variant-approvals.jsonl they were approved 9% / 15% of
+# the times shown (0% on the noise-risk stratum) and were the sole approved
+# variant on 1 / 0 photos, so they must never join DEFAULT_VARIANTS.
 GENERATED_METHODS: dict[str, Callable[[np.ndarray], np.ndarray]] = {
     "channel-stretch": channel_stretch,
     "hue-shift": hue_shift,
@@ -436,6 +469,8 @@ GENERATED_METHODS: dict[str, Callable[[np.ndarray], np.ndarray]] = {
     "hue-shift-clarity-near": hue_shift_clarity_near,
     "ancuti-fusion": ancuti_fusion,
     "dicam": dicam_correct,
+    "gray-world": gray_world,
+    "white-patch": white_patch,
 }
 
 # The menu. DEFAULT_VARIANTS is the set to generate when a caller expresses no
