@@ -1,0 +1,25 @@
+##### 2026-08-16T02:39:22.053Z
+Scoring 152 photo(s) from 152 approval(s) under 3 metric(s).
+
+metric          overall      noise-risk    dark          baseline     close-call           favorite      pairs                       
+uciqe-nr        74.5% ±7.1%  44.8% ±17.0%  85.7% ±12.9%  81.0% ±8.3%  82.1% ±13.9% (n=28)  39.4% ±15.8%  83.9% ±3.5% (n=141 photos)  
+uciqe-v2        61.0% ±7.9%  17.2% ±13.5%  64.3% ±16.7%  75.0% ±9.1%  71.4% ±15.9% (n=28)  24.2% ±14.1%  80.2% ±3.6% (n=141 photos)  
+clip-iqa        23.4% ±6.9%  20.7% ±14.3%  32.1% ±16.4%  21.4% ±8.7%  25.0% ±15.3% (n=28)  12.1% ±11.3%  57.3% ±4.1% (n=141 photos)  
+n               141          29            28            84           -                    33            1129                        
+top-1 is the headline: does the metric's pick land in the approved set? Photo-denominated cells carry Wilson intervals; pairs carries a photo-clustered bootstrap and shows its own photo count inline — don't read the pair count as that many independent observations.
+9 record(s) skipped (image missing)
+3 photo(s) had every variant rejected; excluded from every cell. Review them with `python -m photogen cull --proposed`.
+
+##### 2026-08-16T02:55:04.670Z
+Scoring 152 photo(s) from 152 approval(s) under 4 metric(s).
+
+metric          overall      noise-risk    dark          baseline      close-call           favorite      pairs                       
+contrast-nr     86.5% ±5.6%  86.2% ±12.5%  89.3% ±11.7%  85.7% ±7.5%   90.3% ±10.8% (n=31)  51.5% ±16.1%  86.4% ±3.4% (n=141 photos)  
+uciqe-nr        85.1% ±5.9%  86.2% ±12.5%  89.3% ±11.7%  83.3% ±7.9%   85.7% ±12.9% (n=28)  48.5% ±16.1%  83.9% ±3.5% (n=141 photos)  
+uciqe-v2        83.7% ±6.1%  86.2% ±12.5%  85.7% ±12.9%  82.1% ±8.1%   85.7% ±12.9% (n=28)  48.5% ±16.1%  80.2% ±3.6% (n=141 photos)  
+clip-iqa        61.0% ±7.9%  86.2% ±12.5%  64.3% ±16.7%  51.2% ±10.5%  60.7% ±17.0% (n=28)  33.3% ±15.3%  57.3% ±4.1% (n=141 photos)  
+n               141          29            28            84            -                    33            1129                        
+top-1 is the headline: does the metric's pick land in the approved set? Photo-denominated cells carry Wilson intervals; pairs carries a photo-clustered bootstrap and shows its own photo count inline — don't read the pair count as that many independent observations.
+9 record(s) skipped (image missing)
+3 photo(s) had every variant rejected; excluded from every cell. Review them with `python -m photogen cull --proposed`.
+

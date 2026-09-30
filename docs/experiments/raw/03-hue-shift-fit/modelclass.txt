@@ -1,0 +1,27 @@
+##### 2026-08-16T02:55:46.356Z
+ 81 4fd22072ab4e base= 61.1 affine=  9.9 matrix=  2.3 lut=  8.2 lut+mat=  1.7  local_contrast=-0.01 neigh_bright=-0.03 radial=-0.04 autocorr8=+0.21
+ 82 22b10dbd3c6f base= 27.3 affine=  3.5 matrix=  0.8 lut=  3.4 lut+mat=  0.8  local_contrast=-0.02 neigh_bright=+0.02 radial=+0.06 autocorr8=+0.04
+ 83 ed91c269c4cc base= 35.6 affine=  6.0 matrix=  0.9 lut=  5.9 lut+mat=  0.9  local_contrast=-0.05 neigh_bright=+0.00 radial=+0.11 autocorr8=+0.04
+ 84 9db5e82c8008 base= 39.1 affine=  5.9 matrix=  0.9 lut=  5.8 lut+mat=  0.8  local_contrast=+0.00 neigh_bright=-0.01 radial=+0.02 autocorr8=+0.02
+ 85 d3dd6612b408 base= 60.2 affine= 20.9 matrix=  1.2 lut= 17.3 lut+mat=  1.1  local_contrast=+0.04 neigh_bright=-0.04 radial=-0.06 autocorr8=+0.04
+ 86 bb22d88a06e8 base= 67.9 affine= 14.5 matrix=  1.7 lut= 13.5 lut+mat=  1.3  local_contrast=-0.07 neigh_bright=+0.02 radial=-0.06 autocorr8=+0.15
+ 87 e51a47b33132 base= 79.0 affine= 23.1 matrix=  1.6 lut= 22.4 lut+mat=  1.4  local_contrast=-0.03 neigh_bright=-0.00 radial=+0.04 autocorr8=+0.14
+ 88 07201bb518c2 base= 37.8 affine=  7.7 matrix=  1.1 lut=  7.7 lut+mat=  1.1  local_contrast=-0.01 neigh_bright=-0.03 radial=+0.06 autocorr8=+0.03
+ 89 83b1b000695f base= 37.7 affine=  3.6 matrix=  1.0 lut=  3.6 lut+mat=  1.0  local_contrast=-0.00 neigh_bright=+0.02 radial=+0.06 autocorr8=+0.02
+ 90 c8e341f63082 base= 52.3 affine= 18.0 matrix=  1.9 lut= 16.0 lut+mat=  1.7  local_contrast=+0.11 neigh_bright=-0.05 radial=-0.21 autocorr8=+0.18
+ 91 4e06c9ff9251 base= 63.8 affine= 14.6 matrix=  1.6 lut= 14.3 lut+mat=  1.4  local_contrast=-0.01 neigh_bright=+0.01 radial=-0.01 autocorr8=+0.06
+ 92 bde6c23188a3 base= 11.5 affine=  0.9 matrix=  0.9 lut=  0.9 lut+mat=  0.9  local_contrast=-0.01 neigh_bright=+0.00 radial=-0.01 autocorr8=+0.01
+ 93 e0a2f9ee41f6 base= 58.5 affine=  8.5 matrix=  1.4 lut=  8.2 lut+mat=  1.3  local_contrast=+0.03 neigh_bright=-0.02 radial=+0.16 autocorr8=+0.10
+ 94 4676a9b329d1 base= 43.9 affine= 11.5 matrix=  1.5 lut= 10.5 lut+mat=  1.3  local_contrast=-0.07 neigh_bright=+0.04 radial=-0.01 autocorr8=+0.14
+ 95 6320f018354e base= 37.4 affine=  6.7 matrix=  1.1 lut=  6.1 lut+mat=  1.0  local_contrast=-0.00 neigh_bright=+0.01 radial=+0.01 autocorr8=+0.06
+ 96 765e9d12fc8f base= 47.5 affine=  4.6 matrix=  0.9 lut=  4.4 lut+mat=  1.0  local_contrast=-0.03 neigh_bright=+0.01 radial=+0.14 autocorr8=+0.10
+ 97 e167cf3e901c base= 53.4 affine= 24.1 matrix=  1.0 lut= 21.5 lut+mat=  1.0  local_contrast=+0.02 neigh_bright=-0.01 radial=+0.00 autocorr8=+0.02
+ 98 824bce137f5f base= 48.3 affine= 19.8 matrix=  1.3 lut= 17.4 lut+mat=  1.3  local_contrast=+0.00 neigh_bright=+0.01 radial=+0.04 autocorr8=+0.10
+ 99 dd5e8f1eeeef base= 38.2 affine=  4.8 matrix=  1.1 lut=  4.6 lut+mat=  1.1  local_contrast=+0.00 neigh_bright=-0.07 radial=+0.04 autocorr8=+0.06
+
+n=100  median RMSE: base=42.2 affine=8.9 matrix=1.1 lut=8.2 lut+matrix=1.1
+  resid corr local_contrast: median +0.00  |median| 0.02
+  resid corr neigh_bright: median +0.00  |median| 0.02
+  resid corr radial: median +0.02  |median| 0.04
+  resid corr autocorr8: median +0.05  |median| 0.05
+

@@ -117,14 +117,15 @@ def white_patch(arr: np.ndarray) -> np.ndarray:
 #      HUE_SHIFT_HIGH_PCT percentiles, measured AFTER step 1, map to 0 / 255.
 #
 # The angle table and the 0.4/99.9 percentiles were fitted on 2026-08-15 to
-# 160 hand-corrected original->corrected pairs in this library, which a free
+# 100 hand-corrected original->corrected pairs in this library, which a free
 # linear fit showed to be a single global matrix + offset (1.1 RMSE, no
 # spatial structure left in the residual). This form matches them at median
 # 5.2 RMSE on the fitted pairs and 4.2 on 60 held-out pairs (p90 ~11-24),
 # against 23-30 for a pure per-channel stretch (~channel_stretch); a fixed
 # h=80 still lands at 5.3-5.9. Red is *synthesised* from green/blue rather than
 # gained, which is why it needs no MAX_CHANNEL_GAIN and is markedly less noisy
-# than channel_stretch on red-starved frames.
+# than channel_stretch on red-starved frames. The fit, its raw output and its
+# caveats: docs/experiments/03-hue-shift-fit.md.
 
 HUE_SHIFT_LOW_PCT = 0.4     # hue-shift stretch: low percentile mapped to 0
 HUE_SHIFT_HIGH_PCT = 99.9   # hue-shift stretch: high percentile mapped to 255
@@ -284,13 +285,14 @@ def hue_shift_clarity(arr: np.ndarray) -> np.ndarray:
 # leave the haze alone — sharpened haze is what read as wrong.
 #
 # Why: on the 2026-08-16 label round the texture gate turned out to be
-# effectively binary — flat blue water off, everything else fully on (~1 over
-# >=95% of the frame on 9 of 12 sampled photos, since reef-frame fine-detail
-# energy is 1-8 L against a 0.4-1.2 ramp). A blinded 12-photo flip over
-# alternative gates (transmission / dark-channel, warmth, Weber contrast)
-# preferred the current variant on 1 of 12 and warmth on 5, so it is in for a
-# larger eval as its own variant rather than a silent retune. Color is
-# still untouched (a*/b* pass through) and it is photo-only like its sibling.
+# effectively binary — flat blue water off, everything else fully on (the
+# gate's mean over the frame >= 0.89 on 9 of 12 sampled photos, since
+# reef-frame fine-detail energy is 1-8 L against a 0.4-1.2 ramp). A blinded,
+# single-rater 12-photo flip over alternative gates (transmission /
+# dark-channel, warmth, Weber contrast) preferred the current variant on 1 of
+# 12 and warmth on 5, so it is in for a larger eval as its own variant rather
+# than a silent retune (that eval has not been run). Color is still untouched
+# (a*/b* pass through) and it is photo-only like its sibling.
 
 CLARITY_NEAR_B_LO = -25.0   # pooled b* at/below which no clarity (still blue)
 CLARITY_NEAR_B_HI = 0.0     # ... at/above which the full texture-gated amount

@@ -32,6 +32,8 @@ missing ffmpeg is reported at runtime.
 | [`white-patch`](docs/methods/white-patch.md) | Classical white-patch (max-RGB) white balance: in linear light, gain each channel so its 99th percentile reaches 255. No gain cap; an opt-in baseline, never a default. |
 
 Each method's doc covers how it works and the paper or code it comes from.
+The evaluations behind the methods and the default menu, with their data
+and raw results, are in [`docs/experiments/`](docs/experiments/).
 
 The default menu is `hue-shift-clarity`, `hue-shift-clarity-near`,
 `hue-shift`. **Order is precedence**: the first entry a photo actually has is

@@ -1,0 +1,19 @@
+##### 2026-08-17T02:09:54.717Z
+198 new rows; 198 photos; labelers Counter({'labeler-4': 95, 'labeler-6': 51, 'labeler-5': 50, 'labeler-1': 2})
+method                 shown  appr   rate  fav sole
+ancuti-fusion            198    44    22%    6    0
+channel-stretch          198   113    57%    3    1
+dicam                    198   113    57%    4    1
+hue-shift                198   145    73%    4    0
+hue-shift-clarity        198   153    77%   24    2
+original                 198    11     6%    0    0
+dive-plus                 91    70    77%    2    0
+google                     1     0     0%    0    0
+hue-shift vs hue-shift-clarity: 20-28 (both/neither 150)
+hue-shift vs dive-plus: 11-15 (both/neither 65)
+hue-shift-clarity vs dive-plus: 14-16 (both/neither 61)
+hue-shift vs dicam: 62-30 (both/neither 106)
+hue-shift vs channel-stretch: 62-30 (both/neither 106)
+hue-shift-clarity vs dicam: 66-26 (both/neither 106)
+empty approvals: 7
+

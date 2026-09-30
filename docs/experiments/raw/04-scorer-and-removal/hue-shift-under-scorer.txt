@@ -1,0 +1,18 @@
+##### 2026-08-16T04:17:41.697Z
+    4203
+    4203
+cached photos with a hue-shift score: 4203  metric=Counter({'contrast-nr': 4203})
+shown default (actual rule): {'dive-plus': 1684, 'channel-stretch': 1464, 'dicam': 839, 'hue-shift': 209, 'google': 3, None: 2, 'ancuti-fusion': 2}
+pick with dive-plus/google removed: {'channel-stretch': 1965, 'dicam': 1566, 'hue-shift': 646, 'ancuti-fusion': 24, 'original': 2}
+contrast-nr rank of hue-shift among generated+original: {1: 645, 2: 1523, 3: 1881, 4: 153, 5: 1}
+photos carrying a real Dive+: 1684; scorer prefers hue-shift over dive-plus on 208; raw argmax hs=95 dp=975
+
+labels: fresh=150 stale=1 consensus photos=150
+
+[B1] contrast-nr top-1, Dive+/Google removed from the menu, WITHOUT hue-shift: overall= 75.7% (n=107)  noise-risk= 36.4% (n=11)  dark= 77.8% (n=18)  baseline= 80.8% (n=78)
+[B2] hue-shift is the pick when Dive+ removed: {False: 93, True: 14}
+[B3] proxy top-1 (hue-shift counted approved iff Dive+ was approved), Dive+ removed, hue-shift on menu: overall= 81.1% (n=37)  noise-risk=100.0% (n=6)  baseline= 77.4% (n=31)
+[B4] RMSE(hue-shift medium, Dive+ medium): where Dive+ approved median=8.7 (n=32); where Dive+ rejected median=21.1 (n=5)
+
+per photo: stratum dive stem dp_shown dp_appr pick_with_hs pick_without rmse
+

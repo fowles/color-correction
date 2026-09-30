@@ -1,0 +1,227 @@
+##### 2026-08-16T02:43:32.403Z
+=== candidates (n=141) ===
+uciqe-nr       overall= 74.5%  noise-risk= 44.8%  dark= 85.7%  baseline= 81.0%  pairs= 83.9%
+lc             overall= 78.7%  noise-risk= 62.1%  dark= 85.7%  baseline= 82.1%  pairs= 85.4%
+lc-1spk        overall= 80.1%  noise-risk= 62.1%  dark= 89.3%  baseline= 83.3%  pairs= 85.7%
+lc-2spk        overall= 80.9%  noise-risk= 62.1%  dark= 89.3%  baseline= 84.5%  pairs= 86.1%
+lc-4spk        overall= 81.6%  noise-risk= 62.1%  dark= 89.3%  baseline= 85.7%  pairs= 86.0%
+lc-8spk        overall= 80.1%  noise-risk= 62.1%  dark= 89.3%  baseline= 83.3%  pairs= 85.7%
+lc+lstd        overall= 77.3%  noise-risk= 62.1%  dark= 82.1%  baseline= 81.0%  pairs= 85.4%
+uciqe-nr+dp    overall= 85.1%  noise-risk= 86.2%  dark= 89.3%  baseline= 83.3%  pairs= 85.5%
+lc+dp          overall= 85.8%  noise-risk= 86.2%  dark= 89.3%  baseline= 84.5%  pairs= 86.3%
+lc-1spk+dp     overall= 85.8%  noise-risk= 86.2%  dark= 89.3%  baseline= 84.5%  pairs= 86.4%
+lc-2spk+dp     overall= 85.8%  noise-risk= 86.2%  dark= 89.3%  baseline= 84.5%  pairs= 86.7%
+lc-4spk+dp     overall= 86.5%  noise-risk= 86.2%  dark= 89.3%  baseline= 85.7%  pairs= 86.6%
+lc-8spk+dp     overall= 86.5%  noise-risk= 86.2%  dark= 89.3%  baseline= 85.7%  pairs= 86.5%
+lc+lstd+dp     overall= 83.7%  noise-risk= 86.2%  dark= 85.7%  baseline= 82.1%  pairs= 86.2%
+
+=== paired bootstrap Δ vs uciqe-nr (top-1 pts, pair-rate pts) 95% CI ===
+lc             top1 Δ= +4.3 [ -0.7, +9.2]   pairs Δ= +1.5 [ -0.4, +3.5]
+lc-1spk        top1 Δ= +5.6 [ +1.4,+10.6]   pairs Δ= +1.8 [ -0.1, +3.7]
+lc-2spk        top1 Δ= +6.4 [ +2.1,+11.3]   pairs Δ= +2.2 [ +0.5, +3.9]
+lc-4spk        top1 Δ= +7.1 [ +2.8,+11.3]   pairs Δ= +2.1 [ +0.7, +3.5]
+lc-8spk        top1 Δ= +5.7 [ +1.4, +9.9]   pairs Δ= +1.9 [ +0.6, +3.1]
+lc+lstd        top1 Δ= +2.9 [ -2.8, +8.5]   pairs Δ= +1.5 [ -0.4, +3.5]
+uciqe-nr+dp    top1 Δ=+10.6 [ +5.0,+16.3]   pairs Δ= +1.6 [ +0.8, +2.4]
+lc+dp          top1 Δ=+11.4 [ +5.7,+17.7]   pairs Δ= +2.4 [ +0.4, +4.4]
+lc-1spk+dp     top1 Δ=+11.3 [ +5.0,+17.7]   pairs Δ= +2.5 [ +0.5, +4.5]
+lc-2spk+dp     top1 Δ=+11.3 [ +5.7,+17.7]   pairs Δ= +2.8 [ +1.0, +4.6]
+lc-4spk+dp     top1 Δ=+12.0 [ +6.4,+18.4]   pairs Δ= +2.7 [ +1.1, +4.4]
+lc-8spk+dp     top1 Δ=+12.0 [ +6.4,+18.4]   pairs Δ= +2.7 [ +1.3, +4.1]
+lc+lstd+dp     top1 Δ= +9.3 [ +2.8,+16.3]   pairs Δ= +2.3 [ +0.4, +4.3]
+
+=== per labeler (raw records that have features) ===
+-- labeler-1: 82 records
+   uciqe-nr       overall= 72.0%  noise-risk= 38.5%  dark= 91.3%  baseline= 84.8%  pairs= 85.0%
+   lc             overall= 74.4%  noise-risk= 57.7%  dark= 91.3%  baseline= 75.8%  pairs= 84.8%
+   lc-2spk        overall= 78.0%  noise-risk= 57.7%  dark= 95.7%  baseline= 81.8%  pairs= 86.3%
+   uciqe-nr+dp    overall= 86.6%  noise-risk= 84.6%  dark= 95.7%  baseline= 81.8%  pairs= 87.0%
+   lc+dp          overall= 85.4%  noise-risk= 84.6%  dark= 95.7%  baseline= 78.8%  pairs= 86.3%
+   lc-2spk+dp     overall= 85.4%  noise-risk= 84.6%  dark= 95.7%  baseline= 78.8%  pairs= 87.3%
+-- labeler-2: 43 records
+   uciqe-nr       overall= 90.7%  noise-risk=100.0%  dark= 75.0%  baseline= 91.9%  pairs= 92.2%
+   lc             overall= 97.7%  noise-risk=100.0%  dark= 75.0%  baseline=100.0%  pairs= 95.3%
+   lc-2spk        overall= 97.7%  noise-risk=100.0%  dark= 75.0%  baseline=100.0%  pairs= 95.3%
+   uciqe-nr+dp    overall= 95.3%  noise-risk=100.0%  dark= 75.0%  baseline= 97.3%  pairs= 93.3%
+   lc+dp          overall= 97.7%  noise-risk=100.0%  dark= 75.0%  baseline=100.0%  pairs= 95.3%
+   lc-2spk+dp     overall= 97.7%  noise-risk=100.0%  dark= 75.0%  baseline=100.0%  pairs= 95.3%
+-- labeler-3: 16 records
+   uciqe-nr       overall= 43.8%  noise-risk=100.0%  dark=  0.0%  baseline= 42.9%  pairs= 55.1%
+   lc             overall= 50.0%  noise-risk=100.0%  dark=  0.0%  baseline= 50.0%  pairs= 59.6%
+   lc-2spk        overall= 50.0%  noise-risk=100.0%  dark=  0.0%  baseline= 50.0%  pairs= 58.8%
+   uciqe-nr+dp    overall= 50.0%  noise-risk=100.0%  dark=  0.0%  baseline= 50.0%  pairs= 56.6%
+   lc+dp          overall= 56.2%  noise-risk=100.0%  dark=  0.0%  baseline= 57.1%  pairs= 60.3%
+   lc-2spk+dp     overall= 56.2%  noise-risk=100.0%  dark=  0.0%  baseline= 57.1%  pairs= 59.6%
+
+=== when dive-plus shown: what each metric picks ===
+uciqe-nr   picks={'dive-plus': 33, 'dicam': 12, 'ancuti-fusion': 3, 'channel-stretch': 22}  misses-by-pick={'dicam': 2, 'ancuti-fusion': 3, 'channel-stretch': 14, 'dive-plus': 2}
+lc         picks={'dive-plus': 37, 'dicam': 17, 'channel-stretch': 16}  misses-by-pick={'dicam': 5, 'channel-stretch': 9, 'dive-plus': 2}
+lc-2spk    picks={'dive-plus': 43, 'dicam': 11, 'channel-stretch': 16}  misses-by-pick={'channel-stretch': 9, 'dicam': 1, 'dive-plus': 3}
+
+=== misses for lc-2spk+dp ===
+  2024-03-10-candyland/1b9664287af2aab3 [baseline] picked dicam, approved ['ancuti-fusion']
+  2024-03-10-something-special/55dfa318f5711a3a [dark] picked channel-stretch, approved ['ancuti-fusion']
+  2024-03-10-something-special/ee86d3be1eb7e7b8 [baseline] picked channel-stretch, approved ['ancuti-fusion', 'dicam']
+  2024-11-07-salt-pier/0b5e19617766e689 [baseline] picked channel-stretch, approved ['dicam']
+  2024-11-07-salt-pier/d34d0a3d5e84b221 [baseline] picked channel-stretch, approved ['dicam', 'original']
+  2024-11-08-candyland/806205cb2e1daa9c [noise-risk] picked channel-stretch, approved ['dicam']
+  2024-11-14-red-slave/9e95ce352e769260 [baseline] picked dive-plus, approved ['channel-stretch']
+  2024-11-14-red-slave/a7a35de2d73fee5b [noise-risk] picked channel-stretch, approved ['dicam', 'original']
+  2024-11-14-red-slave/d0f7795247e615e0 [baseline] picked channel-stretch, approved ['dicam']
+  2024-11-15-something-special/f5a11e87e75b0e96 [baseline] picked dive-plus, approved ['dicam']
+  2025-04-02-molasses-reef-3/d537e37969f0d7c7 [noise-risk] picked dive-plus, approved ['channel-stretch', 'dicam']
+  2025-04-04-blue-heron-bridge/46ea340094c865d0 [baseline] picked dive-plus, approved ['ancuti-fusion']
+  2025-08-11-bachelors-beach/f36584bc66bf9fe4 [baseline] picked dive-plus, approved ['dicam', 'gray-world']
+  2025-08-11-webers-joy/5c05b3ced646e734 [baseline] picked dive-plus, approved ['gray-world']
+  2025-08-12-candyland/ade57f382fc2fa0a [dark] picked dicam, approved ['ancuti-fusion', 'channel-stretch', 'gray-world', 'white-patch']
+  2025-08-15-bachelors-beach/4324ac461b8e342e [baseline] picked dicam, approved ['ancuti-fusion', 'channel-stretch']
+  2025-08-15-bachelors-beach/f53e75302eabac13 [dark] picked dicam, approved ['channel-stretch', 'original', 'white-patch']
+  2025-10-06-lunkhead/85c0bafd356a1e58 [baseline] picked channel-stretch, approved ['dicam']
+  2025-10-06-lunkhead/cf35c3029994777d [noise-risk] picked channel-stretch, approved ['dicam']
+  2025-10-09-wreck-2/56eb50e722ff71cd [baseline] picked channel-stretch, approved ['ancuti-fusion', 'dicam']
+
+=== dive-plus shown but NOT approved ===
+  2024-11-14-red-slave/9e95ce352e769260 [baseline] approved ['channel-stretch']
+  2024-11-15-something-special/f5a11e87e75b0e96 [baseline] approved ['dicam']
+  2025-04-02-molasses-reef-3/d537e37969f0d7c7 [noise-risk] approved ['channel-stretch', 'dicam']
+  2025-04-04-blue-heron-bridge/46ea340094c865d0 [baseline] approved ['ancuti-fusion']
+  2025-08-11-bachelors-beach/f36584bc66bf9fe4 [baseline] approved ['dicam', 'gray-world']
+  2025-08-11-webers-joy/5c05b3ced646e734 [baseline] approved ['gray-world']
+
+##### 2026-08-16T03:38:49.588Z
+    lap = (4 * gray[1:-1, 1:-1] - gray[:-2, 1:-1] - gray[2:, 1:-1]
+           - gray[1:-1, :-2] - gray[1:-1, 2:])
+    f["lap_var"] = lap.var()
+    f["lap_med"] = np.median(np.abs(lap))
+    f["lap_p90"] = np.percentile(np.abs(lap), 90)
+    # clipping
+    f["clip_hi"] = (rgb.max(axis=2) >= 254).mean()
+    f["clip_lo"] = (rgb.min(axis=2) <= 1).mean()
+    f["clip_hi_any"] = (rgb >= 254).mean()
+    f["clip_lo_any"] = (rgb <= 1).mean()
+    # per-channel percentile spans (raw dynamic range use)
+    for name, ch in (("r", r), ("g", g), ("b", bl)):
+        f[f"{name}_span"] = np.percentile(ch, 99) - np.percentile(ch, 1)
+    # entropy of gray
+    hist, _ = np.histogram(gray, bins=256, range=(0, 255)); p = hist / hist.sum(); p = p[p > 0]
+    f["entropy"] = -(p * np.log2(p)).sum()
+    # HSV saturation
+    hsv = np.asarray(img.convert("HSV")).astype(np.float64)
+    f["hsv_sat_mean"] = hsv[..., 1].mean()
+    f["hsv_sat_p95"] = np.percentile(hsv[..., 1], 95)
+    f["sat_clip"] = (hsv[..., 1] >= 250).mean()
+    # blue/green dominance (underwater cast) in hue: fraction of pixels in blue-cyan hue band
+    h = hsv[..., 0]  # 0-255
+    f["hue_bluecyan"] = ((h > 120) & (h < 180) & (hsv[..., 1] > 40)).mean()
+    f["hue_redorange"] = (((h < 25) | (h > 240)) & (hsv[..., 1] > 40)).mean()
+    # extreme chroma fraction (garish)
+    f["chroma_p99"] = np.percentile(chroma, 99)
+    f["chroma_hi"] = (chroma > 60).mean()
+    return {k: float(v) for k, v in f.items()}
+
+
+rows = []
+for ap in consensus:
+    if not ap.approved:
+        continue
+    per = {}
+    ok = True
+    for slug in ap.shown:
+        p = resolve(ap.dive_slug, ap.stem, slug)
+        if p is None or not p.exists():
+            ok = False; break
+        with Image.open(p) as im:
+            per[slug] = feats(im)
+    if not ok:
+        continue
+    rows.append(dict(dive=ap.dive_slug, stem=ap.stem, stratum=ap.stratum,
+                     shown=list(ap.shown), approved=list(ap.approved),
+                     favorite=ap.favorite, feats=per,
+                     ctx_scores=(ap.context or {}).get("scores")))
+    print(len(rows), end="\r", file=sys.stderr)
+
+out = Path(__file__).with_name("features.pkl")
+pickle.dump(rows, out.open("wb"))
+print(f"\n{len(rows)} photos", file=sys.stderr)
+import pickle, sys, json
+from collections import Counter, defaultdict
+from pathlib import Path
+import numpy as np
+sys.path.insert(0, "/Users/mfk/dev/photogen")
+
+rows = pickle.load((Path(__file__).with_name("features.pkl")).open("rb"))
+STRATA = ["noise-risk", "dark", "baseline"]
+def F(r, s, n): return r["feats"][s][n]
+
+CANDS = {
+    "uciqe-nr":        lambda r, s: F(r, s, "uciqe") - 4 * F(r, s, "speckle_a"),
+    "lc":              lambda r, s: F(r, s, "l_contrast"),
+    "lc-1spk":         lambda r, s: F(r, s, "l_contrast") - 1.0 * F(r, s, "speckle_a"),
+    "lc-2spk":         lambda r, s: F(r, s, "l_contrast") - 2.0 * F(r, s, "speckle_a"),
+    "lc-4spk":         lambda r, s: F(r, s, "l_contrast") - 4.0 * F(r, s, "speckle_a"),
+    "lc-8spk":         lambda r, s: F(r, s, "l_contrast") - 8.0 * F(r, s, "speckle_a"),
+    "lc+lstd":         lambda r, s: F(r, s, "l_contrast") + F(r, s, "l_std"),
+}
+def dp(fn): return lambda r, s: fn(r, s) + (1000 if s == "dive-plus" else 0)
+for k in list(CANDS): CANDS[k + "+dp"] = dp(CANDS[k])
+
+def per_photo(fn, r):
+    sc = {s: fn(r, s) for s in r["shown"]}
+    pick = max(sc, key=lambda s: (sc[s], s == "original"))
+    rej = [s for s in r["shown"] if s not in r["approved"]]
+    pc = sum(sc[g] > sc[b] for g in r["approved"] for b in rej)
+    return int(pick in r["approved"]), pc, len(r["approved"]) * len(rej), pick
+
+def summarize(fn, subset):
+    hits = defaultdict(lambda: [0, 0]); pc = pn = 0
+    for r in subset:
+        h, c, n, _ = per_photo(fn, r)
+        for k in ("overall", r["stratum"]): hits[k][0] += h; hits[k][1] += 1
+        pc += c; pn += n
+    s = "  ".join(f"{k}={hits[k][0]/hits[k][1]*100:5.1f}%" for k in ["overall"] + STRATA if k in hits)
+    return s + f"  pairs={pc/pn*100:5.1f}%"
+
+print("=== candidates (n=%d) ===" % len(rows))
+for k, fn in CANDS.items():
+    print(f"{k:14}", summarize(fn, rows))
+
+# paired bootstrap of difference vs uciqe-nr
+print("\n=== paired bootstrap Δ vs uciqe-nr (top-1 pts, pair-rate pts) 95% CI ===")
+rng = np.random.default_rng(0)
+base = [per_photo(CANDS["uciqe-nr"], r) for r in rows]
+for k, fn in CANDS.items():
+    if k == "uciqe-nr": continue
+    mine = [per_photo(fn, r) for r in rows]
+    d1 = []; d2 = []
+    n = len(rows)
+    for _ in range(4000):
+        idx = rng.integers(0, n, n)
+        d1.append(np.mean([mine[i][0] - base[i][0] for i in idx]) * 100)
+        b_c = sum(base[i][1] for i in idx); b_n = sum(base[i][2] for i in idx)
+        m_c = sum(mine[i][1] for i in idx)
+        d2.append((m_c - b_c) / b_n * 100)
+    print(f"{k:14} top1 Δ={np.mean(d1):+5.1f} [{np.percentile(d1,2.5):+5.1f},{np.percentile(d1,97.5):+5.1f}]"
+          f"   pairs Δ={np.mean(d2):+5.1f} [{np.percentile(d2,2.5):+5.1f},{np.percentile(d2,97.5):+5.1f}]")
+
+# per-labeler (raw, non-consensus records) — reload approvals directly
+from photogen.variant_labels import load_approvals, APPROVALS_FILENAME
+feat_by = {(r["dive"], r["stem"]): r for r in rows}
+aps = load_approvals(Path("/Users/mfk/dev/photogen") / APPROVALS_FILENAME, warn=lambda s: None)
+print("\n=== per labeler (raw records that have features) ===")
+for lab in ("labeler-1", "labeler-2", "labeler-3"):
+    sub = []
+    for a in aps:
+        if a.labeler != lab or not a.approved: continue
+        r = feat_by.get((a.dive_slug, a.stem))
+        if r is None or set(a.shown) != set(r["shown"]): continue
+        sub.append(dict(r, approved=list(a.approved), shown=list(a.shown)))
+    print(f"-- {lab}: {len(sub)} records")
+    for k in ("uciqe-nr", "lc", "lc-2spk", "uciqe-nr+dp", "lc+dp", "lc-2spk+dp"):
+        print(f"   {k:14}", summarize(CANDS[k], sub))
+
+# what does uciqe-nr pick when dive-plus is shown & approved?
+print("\n=== when dive-plus shown: what each metric picks ===")
+for k in ("uciqe-nr", "lc", "lc-2spk"):
+    picks = Counter(); miss = Counter()
+Shell cwd was reset to /Users/mfk/dev/photogen
+

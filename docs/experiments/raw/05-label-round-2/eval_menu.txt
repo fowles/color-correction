@@ -1,0 +1,42 @@
+##### 2026-08-17T03:59:24.990Z
+Retired variant(s) gray-world, white-patch removed from the records that showed them; 1 record(s) whose only approvals were retired dropped.
+Reporting 348 photo(s) from 348 approval(s).
+
+variant                shown  appr   rate  fav sole
+dive-plus                163   137    84%   11   34
+hue-shift-clarity        198   153    77%   24    2
+hue-shift                198   145    73%    4    0
+dicam                    348   196    56%   12    9
+channel-stretch          348   192    55%   10    9
+ancuti-fusion            348    82    24%   11    4
+original                 348    17     5%    0    0
+google                     1     0     0%    0    0
+
+head-to-head (wins-wins, both/neither):
+  hue-shift-clarity vs hue-shift: 28-20 (150)
+  hue-shift-clarity vs dive-plus: 14-16 (61)
+  hue-shift-clarity vs dicam: 66-26 (106)
+  hue-shift-clarity vs channel-stretch: 63-23 (112)
+  hue-shift-clarity vs ancuti-fusion: 121-12 (65)
+  hue-shift-clarity vs original: 147-5 (46)
+  hue-shift-clarity vs google: 1-0 (0)
+  hue-shift vs dive-plus: 11-15 (65)
+  hue-shift vs dicam: 62-30 (106)
+  hue-shift vs channel-stretch: 62-30 (106)
+  hue-shift vs ancuti-fusion: 121-20 (57)
+  hue-shift vs original: 136-2 (60)
+  hue-shift vs google: 1-0 (0)
+  dive-plus vs dicam: 73-11 (79)
+  dive-plus vs channel-stretch: 88-10 (65)
+  dive-plus vs ancuti-fusion: 115-8 (40)
+  dive-plus vs original: 133-0 (30)
+  dicam vs channel-stretch: 70-66 (212)
+  dicam vs ancuti-fusion: 143-29 (176)
+  dicam vs original: 185-6 (157)
+  dicam vs google: 1-0 (0)
+  channel-stretch vs ancuti-fusion: 142-32 (174)
+  channel-stretch vs original: 181-6 (161)
+  channel-stretch vs google: 1-0 (0)
+  ancuti-fusion vs original: 77-12 (259)
+  ancuti-fusion vs google: 1-0 (0)
+

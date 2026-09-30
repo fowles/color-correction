@@ -1,0 +1,44 @@
+##### 2026-08-16T03:39:47.337Z
+=== shaped candidates ===
+  cnr+0.4*satpen(150)      overall= 84.3%  noise-risk= 79.3%  dark= 85.7%  baseline= 85.5%  pairs= 86.5%
+  cnr+40*rgband(.6,1)      overall= 83.6%  noise-risk= 72.4%  dark= 85.7%  baseline= 86.7%  pairs= 86.3%
+  cnr+80*rgband(.6,1)      overall= 83.6%  noise-risk= 79.3%  dark= 85.7%  baseline= 84.3%  pairs= 86.1%
+  cnr+80*rgband(.5,.95)    overall= 83.6%  noise-risk= 75.9%  dark= 85.7%  baseline= 85.5%  pairs= 86.0%
+  cnr+40*rgcap(.7)         overall= 82.9%  noise-risk= 72.4%  dark= 85.7%  baseline= 85.5%  pairs= 86.3%
+  cnr+0.2*satpen(120)      overall= 82.9%  noise-risk= 72.4%  dark= 85.7%  baseline= 85.5%  pairs= 86.1%
+  cnr+0.4*satpen(180)      overall= 82.9%  noise-risk= 69.0%  dark= 85.7%  baseline= 86.7%  pairs= 86.8%
+  cnr+0.2*satpen(150)      overall= 82.1%  noise-risk= 65.5%  dark= 85.7%  baseline= 86.7%  pairs= 85.8%
+  cnr+0.4*satpen(120)      overall= 82.1%  noise-risk= 79.3%  dark= 85.7%  baseline= 81.9%  pairs= 86.1%
+  cnr+2*castpen(25)        overall= 82.1%  noise-risk= 65.5%  dark= 85.7%  baseline= 86.7%  pairs= 86.1%
+  cnr-200*sat_clip         overall= 82.1%  noise-risk= 79.3%  dark= 78.6%  baseline= 84.3%  pairs= 86.0%
+  cnr+5*rgband(.6,1)       overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 86.5%
+  cnr+5*rgband(.5,.95)     overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 87.0%
+  cnr+5*rgcap(.8)          overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 86.8%
+  cnr+5*rgcap(.7)          overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 86.5%
+  cnr+10*rgband(.6,1)      overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 86.3%
+  cnr+10*rgband(.5,.95)    overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 86.6%
+  cnr+10*rgcap(.7)         overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 86.6%
+  cnr+20*rgband(.6,1)      overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 86.1%
+  cnr+20*rgband(.5,.95)    overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 86.0%
+  cnr+20*rgcap(.7)         overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 86.5%
+  cnr+40*rgband(.5,.95)    overall= 81.4%  noise-risk= 65.5%  dark= 85.7%  baseline= 85.5%  pairs= 85.4%
+  cnr+80*rgcap(.7)         overall= 81.4%  noise-risk= 79.3%  dark= 85.7%  baseline= 80.7%  pairs= 86.0%
+  cnr+0.05*satpen(120)     overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 86.3%
+  cnr+0.05*satpen(150)     overall= 81.4%  noise-risk= 62.1%  dark= 85.7%  baseline= 86.7%  pairs= 86.5%
+
+=== same, but with dive-plus/google removed from the menu (photos that still have an approved variant) ===
+n=108
+  contrast-nr              overall= 75.9%  noise-risk= 36.4%  dark= 78.9%  baseline= 80.8%  pairs= 83.4%
+  cnr+0.4*satpen(150)      overall= 73.1%  noise-risk= 54.5%  dark= 78.9%  baseline= 74.4%  pairs= 81.8%
+  cnr+40*rgband(.6,1)      overall= 72.2%  noise-risk= 36.4%  dark= 78.9%  baseline= 75.6%  pairs= 81.8%
+  cnr+80*rgband(.6,1)      overall= 70.4%  noise-risk= 36.4%  dark= 78.9%  baseline= 73.1%  pairs= 81.0%
+  cnr+80*rgband(.5,.95)    overall= 72.2%  noise-risk= 36.4%  dark= 78.9%  baseline= 75.6%  pairs= 81.0%
+  cnr+40*rgcap(.7)         overall= 75.0%  noise-risk= 45.5%  dark= 78.9%  baseline= 78.2%  pairs= 82.4%
+  cnr+0.2*satpen(120)      overall= 73.1%  noise-risk= 45.5%  dark= 78.9%  baseline= 75.6%  pairs= 82.1%
+  cnr+0.4*satpen(180)      overall= 76.9%  noise-risk= 45.5%  dark= 78.9%  baseline= 80.8%  pairs= 82.6%
+  cnr+0.2*satpen(150)      overall= 72.2%  noise-risk= 36.4%  dark= 78.9%  baseline= 75.6%  pairs= 81.6%
+  cnr+0.4*satpen(120)      overall= 70.4%  noise-risk= 27.3%  dark= 78.9%  baseline= 74.4%  pairs= 81.8%
+  cnr+2*castpen(25)        overall= 75.9%  noise-risk= 36.4%  dark= 78.9%  baseline= 80.8%  pairs= 82.6%
+  cnr-200*sat_clip         overall= 70.4%  noise-risk= 36.4%  dark= 68.4%  baseline= 75.6%  pairs= 80.2%
+  cnr+5*rgband(.6,1)       overall= 75.0%  noise-risk= 36.4%  dark= 78.9%  baseline= 79.5%  pairs= 82.4%
+

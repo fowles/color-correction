@@ -32,10 +32,12 @@ cleaner on red-starved frames.
 ## Source
 
 The hue-rotation matrix is the standard YIQ construction above. The angle
-table and stretch percentiles are this library's own: they were fitted to 160
+table and stretch percentiles are this library's own: they were fitted to 100
 hand-corrected original→corrected pairs, which a free linear fit showed to be
 one global matrix plus offset. On those pairs this form reaches a median RMSE
-of 5.2, and 4.2 on 60 held-out pairs. A pure per-channel stretch scores 23–30.
+of 5.2, and 4.2 on 60 further held-out pairs. A pure per-channel stretch
+scores 23–30. The fit, with its raw output and caveats, is
+[experiment 03](../experiments/03-hue-shift-fit.md).
 
 ## Code
 

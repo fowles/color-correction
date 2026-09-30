@@ -1,0 +1,8 @@
+##### 2026-08-16T03:24:27.679Z
+pairs total=1682 used=40
+hue-shift      median=6.1 p90=27.7 mean=12.0
+channel-stretch median=21.2 p90=51.4 mean=26.2
+pairs total=1682 used=40
+hue-shift      median=6.7 p90=15.9 mean=7.9
+channel-stretch median=13.8 p90=44.0 mean=20.5
+

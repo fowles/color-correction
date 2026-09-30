@@ -1,0 +1,19 @@
+##### 2026-08-17T02:09:44.108Z
+     350 variant-approvals.jsonl
+variant-approvals.jsonl | 198 ++++++++++++++++++++++++++++++++++++++++++++++++++
+1 file changed, 198 insertions(+), 0 deletions(-)
+198
+Retired variant(s) gray-world, white-patch removed from the records that showed them; 1 record(s) whose only approvals were retired dropped.
+Scoring 348 photo(s) from 348 approval(s) under 4 metric(s).
+
+metric          overall      noise-risk    dark          baseline     close-call           favorite      pairs                       
+contrast-nr     81.0% ±4.2%  83.7% ±10.3%  86.5% ±11.0%  79.7% ±5.1%  80.8% ±8.9% (n=73)   34.7% ±10.7%  82.7% ±2.6% (n=323 photos)  
+uciqe-nr        80.1% ±4.3%  83.7% ±10.3%  83.8% ±11.7%  78.8% ±5.1%  75.4% ±10.3% (n=65)  34.7% ±10.7%  82.0% ±2.5% (n=323 photos)  
+uciqe-v2        78.9% ±4.4%  83.7% ±10.3%  83.8% ±11.7%  77.2% ±5.3%  81.5% ±9.3% (n=65)   36.1% ±10.8%  77.6% ±2.6% (n=323 photos)  
+clip-iqa        57.5% ±5.3%  77.6% ±11.4%  67.6% ±14.5%  51.9% ±6.3%  55.4% ±11.7% (n=65)  20.8% ±9.3%   52.9% ±3.1% (n=323 photos)  
+n               327          49            37            241          -                    72            2376                        
+top-1 is the headline: does the metric's pick land in the approved set? Photo-denominated cells carry Wilson intervals; pairs carries a photo-clustered bootstrap and shows its own photo count inline — don't read the pair count as that many independent observations.
+14 record(s) skipped (image missing)
+10 photo(s) had every variant rejected; excluded from every cell. Review them with `python -m photogen cull --proposed`.
+1 label(s) stale (variant regenerated since labeling): ancuti-fusion (1), channel-stretch (1), dicam (1), original (1)
+

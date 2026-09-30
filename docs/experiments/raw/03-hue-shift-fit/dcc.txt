@@ -1,0 +1,32 @@
+##### 2026-08-16T02:59:12.187Z
+ 75 dcc-vs-dive+ rmse= 37.9  red-row constrained fit rmse= 2.6 h= 79 magic=1.0 gain=3.41 off= -14.9 | dcc would pick h=101  in_mean=[  4. 126. 197.] dive+=[ 70. 151. 170.] dcc=[115. 177. 197.]
+ 76 dcc-vs-dive+ rmse= 11.9  red-row constrained fit rmse= 1.9 h= 80 magic=1.0 gain=2.33 off=  -3.8 | dcc would pick h= 96  in_mean=[  4. 132. 191.] dive+=[ 76. 152. 184.] dcc=[ 90. 161. 191.]
+ 77 dcc-vs-dive+ rmse= 17.5  red-row constrained fit rmse= 1.6 h= 81 magic=1.0 gain=2.12 off=  -1.6 | dcc would pick h=110  in_mean=[  7.  88. 118.] dive+=[ 62.  94. 104.] dcc=[ 83. 105. 118.]
+ 78 dcc-vs-dive+ rmse= 21.0  red-row constrained fit rmse= 2.3 h= 15 magic=1.0 gain=1.48 off= -13.3 | dcc would pick h= -1  in_mean=[ 93. 135. 145.] dive+=[121. 126. 130.] dcc=[141. 148. 150.]
+ 79 dcc-vs-dive+ rmse= 26.5  red-row constrained fit rmse= 1.8 h= 90 magic=1.2 gain=2.43 off= -10.3 | dcc would pick h= 98  in_mean=[  6. 115. 156.] dive+=[ 79. 114. 131.] dcc=[101. 142. 156.]
+ 80 dcc-vs-dive+ rmse= 19.4  red-row constrained fit rmse= 1.1 h=  6 magic=1.0 gain=1.54 off= -36.0 | dcc would pick h= -1  in_mean=[114. 135. 144.] dive+=[138. 137. 130.] dcc=[156. 154. 149.]
+ 81 dcc-vs-dive+ rmse= 55.6  red-row constrained fit rmse= 3.2 h= 92 magic=1.2 gain=3.07 off= -56.1 | dcc would pick h= 94  in_mean=[  1. 131. 172.] dive+=[ 81. 117. 117.] dcc=[128. 169. 176.]
+ 82 dcc-vs-dive+ rmse= 20.8  red-row constrained fit rmse= 3.1 h= 81 magic=1.0 gain=1.37 off=  -6.2 | dcc would pick h= -1  in_mean=[ 73. 122. 157.] dive+=[104. 115. 135.] dcc=[122. 133. 157.]
+ 83 dcc-vs-dive+ rmse= 13.1  red-row constrained fit rmse= 2.2 h= 75 magic=1.0 gain=1.56 off=   2.0 | dcc would pick h= 72  in_mean=[ 49. 125. 157.] dive+=[101. 127. 145.] dcc=[ 89. 137. 157.]
+ 84 dcc-vs-dive+ rmse= 25.2  red-row constrained fit rmse= 1.9 h= 74 magic=1.0 gain=1.79 off= -12.9 | dcc would pick h= 72  in_mean=[ 51. 122. 155.] dive+=[ 99. 115. 126.] dcc=[ 91. 142. 155.]
+ 85 dcc-vs-dive+ rmse= 12.5  red-row constrained fit rmse= 1.6 h= 90 magic=1.2 gain=2.27 off=  -9.8 | dcc would pick h= 92  in_mean=[  4. 128. 157.] dive+=[ 96. 133. 143.] dcc=[ 98. 144. 157.]
+ 86 dcc-vs-dive+ rmse= 51.2  red-row constrained fit rmse= 1.9 h= 92 magic=1.2 gain=3.27 off= -83.8 | dcc would pick h= 87  in_mean=[  2. 149. 180.] dive+=[106. 141. 161.] dcc=[144. 201. 210.]
+ 87 dcc-vs-dive+ rmse= 56.4  red-row constrained fit rmse= 2.1 h= 89 magic=1.0 gain=3.02 off= -66.6 | dcc would pick h= 95  in_mean=[  2. 133. 183.] dive+=[ 89. 106. 119.] dcc=[109. 161. 183.]
+ 88 dcc-vs-dive+ rmse= 14.2  red-row constrained fit rmse= 1.9 h= 76 magic=1.0 gain=1.57 off=   1.8 | dcc would pick h= 82  in_mean=[ 38. 117. 147.] dive+=[ 89. 113. 131.] dcc=[ 78. 123. 147.]
+ 89 dcc-vs-dive+ rmse= 35.6  red-row constrained fit rmse= 1.9 h= 73 magic=1.0 gain=1.49 off= -21.4 | dcc would pick h= -1  in_mean=[ 64. 135. 158.] dive+=[ 96. 108. 120.] dcc=[121. 144. 158.]
+ 90 dcc-vs-dive+ rmse= 51.0  red-row constrained fit rmse= 2.4 h= 90 magic=1.2 gain=3.00 off= -40.2 | dcc would pick h= 99  in_mean=[  3. 128. 189.] dive+=[ 55. 101. 145.] dcc=[101. 152. 189.]
+ 91 dcc-vs-dive+ rmse= 35.6  red-row constrained fit rmse= 2.1 h= 91 magic=1.2 gain=3.30 off= -36.9 | dcc would pick h= 94  in_mean=[  2. 140. 196.] dive+=[ 96. 152. 167.] dcc=[127. 187. 196.]
+ 92 dcc-vs-dive+ rmse=  4.9  red-row constrained fit rmse= 1.0 h=  2 magic=1.0 gain=1.16 off=  -5.5 | dcc would pick h= -1  in_mean=[125. 138. 137.] dive+=[139. 138. 133.] dcc=[139. 141. 137.]
+ 93 dcc-vs-dive+ rmse= 46.1  red-row constrained fit rmse= 1.8 h= 78 magic=1.0 gain=2.89 off= -68.7 | dcc would pick h= 82  in_mean=[ 14. 150. 178.] dive+=[ 92. 129. 135.] dcc=[116. 181. 186.]
+ 94 dcc-vs-dive+ rmse= 50.7  red-row constrained fit rmse= 1.9 h= 80 magic=1.0 gain=2.48 off=  -2.3 | dcc would pick h=111  in_mean=[  3. 107. 185.] dive+=[ 36. 101. 138.] dcc=[ 87. 140. 185.]
+ 95 dcc-vs-dive+ rmse= 37.9  red-row constrained fit rmse= 2.6 h= 77 magic=1.0 gain=1.89 off= -46.7 | dcc would pick h= 75  in_mean=[ 54. 144. 208.] dive+=[ 72. 115. 173.] dcc=[ 83. 160. 208.]
+ 96 dcc-vs-dive+ rmse= 12.8  red-row constrained fit rmse= 1.7 h= 76 magic=1.0 gain=1.85 off=   0.4 | dcc would pick h= 75  in_mean=[ 44. 122. 152.] dive+=[113. 134. 146.] dcc=[ 95. 139. 152.]
+ 97 dcc-vs-dive+ rmse=  7.3  red-row constrained fit rmse= 1.4 h= 80 magic=1.0 gain=2.16 off=  -0.6 | dcc would pick h=100  in_mean=[  7. 103. 127.] dive+=[ 79. 117. 123.] dcc=[ 87. 119. 127.]
+ 98 dcc-vs-dive+ rmse= 30.7  red-row constrained fit rmse= 2.0 h= 90 magic=1.2 gain=2.32 off=  -8.3 | dcc would pick h=104  in_mean=[  4. 103. 143.] dive+=[ 64.  93. 112.] dcc=[ 88. 124. 143.]
+ 99 dcc-vs-dive+ rmse= 12.9  red-row constrained fit rmse= 1.9 h= 77 magic=1.0 gain=1.72 off=   2.0 | dcc would pick h= 81  in_mean=[ 45. 129. 178.] dive+=[101. 143. 170.] dcc=[ 84. 149. 178.]
+
+n=100 dcc-vs-Dive+ RMSE median 20.7 p10 9.5 p90 51.2
+constrained red-row fit RMSE median 1.93
+fitted h: median 80.0 p10 22.8 p90 91.0;  magic=1.2 chosen in 32%
+dcc-rule h: median 85.5 ; corr(fitted h, dcc h) = 0.61
+

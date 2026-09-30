@@ -1,0 +1,66 @@
+##### 2026-08-16T02:41:38.521Z
+141 photos; strata Counter({'baseline': 84, 'noise-risk': 29, 'dark': 28})
+
+method         shown approved  rate  favorite
+ancuti-fusion    141       37  0.26        5
+channel-stretch   141       76  0.54        7
+dicam            141       79  0.56        8
+dive-plus         70       64  0.91        9
+gray-world       141       12  0.09        2
+original         141        6  0.04        0
+white-patch      141       21  0.15        2
+mean approved per photo 2.0921985815602837
+
+always ancuti-fusion  overall= 26.2%(141)  noise-risk= 10.3%(29)  dark= 39.3%(28)  baseline= 27.4%(84)
+always channel-stretch overall= 53.9%(141)  noise-risk= 13.8%(29)  dark= 57.1%(28)  baseline= 66.7%(84)
+always dicam          overall= 56.0%(141)  noise-risk= 27.6%(29)  dark= 39.3%(28)  baseline= 71.4%(84)
+always dive-plus      overall= 49.6%(141)  noise-risk= 82.8%(29)  dark= 39.3%(28)  baseline= 41.7%(84)
+always gray-world     overall=  8.5%(141)  noise-risk=  0.0%(29)  dark=  3.6%(28)  baseline= 13.1%(84)
+always original       overall=  4.3%(141)  noise-risk=  3.4%(29)  dark=  7.1%(28)  baseline=  3.6%(84)
+always white-patch    overall= 14.9%(141)  noise-risk=  0.0%(29)  dark= 28.6%(28)  baseline= 15.5%(84)
+
+uciqe-nr repro: overall= 74.5%(141)  noise-risk= 44.8%(29)  dark= 85.7%(28)  baseline= 81.0%(84)  pairs= 83.9%
+
+single features (pair concordance, top-1) — sign chosen best
++l_contrast       pairs= 85.4%  overall= 78.7%(141)  noise-risk= 62.1%(29)  dark= 85.7%(28)  baseline= 82.1%(84)
++l_std            pairs= 85.1%  overall= 73.0%(141)  noise-risk= 58.6%(29)  dark= 71.4%(28)  baseline= 78.6%(84)
++entropy          pairs= 83.3%  overall= 73.8%(141)  noise-risk= 62.1%(29)  dark= 71.4%(28)  baseline= 78.6%(84)
++b_span           pairs= 82.3%  overall= 66.7%(141)  noise-risk= 31.0%(29)  dark= 71.4%(28)  baseline= 77.4%(84)
++g_span           pairs= 81.8%  overall= 65.2%(141)  noise-risk= 34.5%(29)  dark= 67.9%(28)  baseline= 75.0%(84)
++uciqe            pairs= 80.2%  overall= 61.0%(141)  noise-risk= 17.2%(29)  dark= 64.3%(28)  baseline= 75.0%(84)
++b_std            pairs= 73.0%  overall= 56.0%(141)  noise-risk= 37.9%(29)  dark= 64.3%(28)  baseline= 59.5%(84)
++lap_p90          pairs= 71.6%  overall= 34.0%(141)  noise-risk=  6.9%(29)  dark= 35.7%(28)  baseline= 42.9%(84)
++lap_med          pairs= 71.4%  overall= 36.2%(141)  noise-risk=  6.9%(29)  dark= 42.9%(28)  baseline= 44.0%(84)
++lap_var          pairs= 71.3%  overall= 35.5%(141)  noise-risk= 10.3%(29)  dark= 35.7%(28)  baseline= 44.0%(84)
++r_span           pairs= 70.7%  overall= 55.3%(141)  noise-risk= 34.5%(29)  dark= 57.1%(28)  baseline= 61.9%(84)
++speckle_L        pairs= 70.2%  overall= 34.0%(141)  noise-risk=  3.4%(29)  dark= 35.7%(28)  baseline= 44.0%(84)
++r_mean           pairs= 60.9%  overall= 34.0%(141)  noise-risk= 37.9%(29)  dark= 39.3%(28)  baseline= 31.0%(84)
+-a_std            pairs= 60.3%  overall= 33.3%(141)  noise-risk= 13.8%(29)  dark= 32.1%(28)  baseline= 40.5%(84)
++clip_hi_any      pairs= 58.6%  overall= 16.3%(141)  noise-risk=  0.0%(29)  dark= 25.0%(28)  baseline= 19.0%(84)
++b_mean           pairs= 58.4%  overall= 29.1%(141)  noise-risk=  6.9%(29)  dark= 39.3%(28)  baseline= 33.3%(84)
++clip_hi          pairs= 57.9%  overall= 17.7%(141)  noise-risk=  0.0%(29)  dark= 25.0%(28)  baseline= 21.4%(84)
++rb_ratio         pairs= 57.8%  overall= 25.5%(141)  noise-risk=  6.9%(29)  dark= 39.3%(28)  baseline= 27.4%(84)
++clip_lo_any      pairs= 57.8%  overall= 45.4%(141)  noise-risk= 10.3%(29)  dark= 57.1%(28)  baseline= 53.6%(84)
+-hue_bluecyan     pairs= 57.8%  overall= 28.4%(141)  noise-risk= 10.3%(29)  dark= 35.7%(28)  baseline= 32.1%(84)
++hue_redorange    pairs= 57.7%  overall= 25.5%(141)  noise-risk=  6.9%(29)  dark= 35.7%(28)  baseline= 28.6%(84)
++r_frac           pairs= 57.6%  overall= 25.5%(141)  noise-risk=  3.4%(29)  dark= 35.7%(28)  baseline= 29.8%(84)
++chroma_std       pairs= 57.6%  overall= 38.3%(141)  noise-risk= 13.8%(29)  dark= 32.1%(28)  baseline= 48.8%(84)
+-chroma_mean      pairs= 57.1%  overall= 24.8%(141)  noise-risk=  6.9%(29)  dark= 39.3%(28)  baseline= 26.2%(84)
++rg_ratio         pairs= 56.8%  overall= 22.7%(141)  noise-risk=  3.4%(29)  dark= 32.1%(28)  baseline= 26.2%(84)
+-colorfulness     pairs= 56.7%  overall= 23.4%(141)  noise-risk= 10.3%(29)  dark= 35.7%(28)  baseline= 23.8%(84)
++uicm             pairs= 56.6%  overall= 28.4%(141)  noise-risk=  3.4%(29)  dark= 21.4%(28)  baseline= 39.3%(84)
++clip_lo          pairs= 56.2%  overall= 43.3%(141)  noise-risk= 10.3%(29)  dark= 57.1%(28)  baseline= 50.0%(84)
++a_mean           pairs= 56.2%  overall= 19.1%(141)  noise-risk=  3.4%(29)  dark= 28.6%(28)  baseline= 21.4%(84)
+-hsv_sat_mean     pairs= 55.9%  overall= 22.7%(141)  noise-risk=  6.9%(29)  dark= 32.1%(28)  baseline= 25.0%(84)
++l_mean           pairs= 55.8%  overall= 19.1%(141)  noise-risk= 13.8%(29)  dark= 28.6%(28)  baseline= 17.9%(84)
+-cast             pairs= 54.8%  overall= 10.6%(141)  noise-risk=  3.4%(29)  dark=  7.1%(28)  baseline= 14.3%(84)
++sat_clip         pairs= 54.7%  overall= 41.8%(141)  noise-risk= 10.3%(29)  dark= 53.6%(28)  baseline= 48.8%(84)
+-chroma_p99       pairs= 54.3%  overall= 25.5%(141)  noise-risk=  6.9%(29)  dark= 39.3%(28)  baseline= 27.4%(84)
+-hsv_sat_p95      pairs= 53.8%  overall= 21.3%(141)  noise-risk= 17.2%(29)  dark= 28.6%(28)  baseline= 20.2%(84)
+-b_mean_rgb       pairs= 53.6%  overall= 27.0%(141)  noise-risk=  3.4%(29)  dark= 39.3%(28)  baseline= 31.0%(84)
++g_mean           pairs= 51.5%  overall= 14.9%(141)  noise-risk=  0.0%(29)  dark= 28.6%(28)  baseline= 15.5%(84)
+-sat_mean         pairs= 50.4%  overall= 20.6%(141)  noise-risk= 17.2%(29)  dark= 32.1%(28)  baseline= 17.9%(84)
+-speckle_a        pairs= 23.2%  overall=  8.5%(141)  noise-risk=  6.9%(29)  dark= 10.7%(28)  baseline=  8.3%(84)
++speckle_b        pairs= 17.2%  overall= 17.0%(141)  noise-risk=  6.9%(29)  dark=  7.1%(28)  baseline= 23.8%(84)
+-chroma_hi        pairs= 16.1%  overall=  6.4%(141)  noise-risk=  3.4%(29)  dark=  7.1%(28)  baseline=  7.1%(84)
+

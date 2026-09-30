@@ -1,0 +1,23 @@
+##### 2026-08-16T03:12:54.554Z
+1	== on the 100 fitted pairs ==
+2	oracle h, stretch(0.4,99.9)                      n=100 RMSE median   4.9  p10   2.7  p90  23.7  mean   9.2
+3	lookup h(in_r), stretch(0.1,99.9)                n=100 RMSE median   6.1  p10   3.4  p90  23.4  mean   9.6
+4	lookup h(in_r), stretch(0.4,99.9)                n=100 RMSE median   5.2  p10   2.6  p90  23.7  mean   9.3
+5	lookup h(in_r), stretch(0.4,99.95)               n=100 RMSE median   6.3  p10   3.2  p90  24.9  mean  10.2
+6	lookup h(in_r), stretch(0.5,99.9)                n=100 RMSE median   5.5  p10   2.7  p90  24.9  mean   9.6
+7	lookup h(in_r), stretch(1.0,99.9)                n=100 RMSE median   7.9  p10   4.2  p90  26.0  mean  11.5
+8	lookup h(in_r), stretch(0.4,99.5)                n=100 RMSE median   6.8  p10   3.0  p90  26.6  mean  10.9
+9	lookup h(in_r), stretch(0.4,100)                 n=100 RMSE median  14.1  p10   9.7  p90  35.0  mean  17.7
+10	ratio h(r/g), stretch(0.4,99.9)                  n=100 RMSE median   5.0  p10   2.7  p90  23.7  mean   9.4
+11	fixed h=80, stretch(0.4,99.9)                    n=100 RMSE median   5.3  p10   2.5  p90  21.7  mean   9.1
+12	fixed h=90 magic1.2, stretch(0.4,99.9)           n=100 RMSE median   5.1  p10   2.6  p90  21.5  mean   8.8
+13	h=0 (pure per-channel stretch, ~channel-stretch) n=100 RMSE median  23.5  p10   4.6  p90  45.0  mean  23.5
+14	== HOLDOUT 60 pairs ==
+15	lookup h(in_r), stretch(0.4,99.9)                n= 60 RMSE median   4.2  p10   2.6  p90  11.2  mean   6.8
+16	ratio h(r/g), stretch(0.4,99.9)                  n= 60 RMSE median   4.4  p10   2.5  p90  10.7  mean   6.9
+17	fixed h=80, stretch(0.4,99.9)                    n= 60 RMSE median   5.9  p10   2.6  p90   9.3  mean   6.9
+18	h=0 (pure per-channel stretch)                   n= 60 RMSE median  30.2  p10   6.5  p90  46.9  mean  27.3
+19	
+20	[exited with code 0]
+21	
+

@@ -40,6 +40,10 @@ def _tracked_sources():
         # vendor/ carries upstream attribution and its own LICENSE.
         if "vendor" in rel.parts:
             continue
+        # docs/experiments/raw/ holds historical eval scripts recovered
+        # verbatim; editing them, even to add a header, would falsify them.
+        if rel.parts[:3] == ("docs", "experiments", "raw"):
+            continue
         yield p
 
 
@@ -67,6 +71,15 @@ def test_the_vendored_tree_keeps_its_upstream_license():
     vendor = ROOT / "underwater_color" / "vendor" / "dicam"
     assert (vendor / "LICENSE").is_file()
     assert (vendor / "NOTICE").is_file()
+
+
+def test_the_raw_experiment_tree_says_what_it_is():
+    """docs/experiments/raw/ is exempt from the SPDX header because it is a
+    verbatim record; its README is what tells a reader that, and where each
+    file came from. Without it the exemption would be unexplained code."""
+    raw = ROOT / "docs" / "experiments" / "raw"
+    assert any(raw.rglob("*.py")), "anti-vacuity: the exemption covers nothing"
+    assert "verbatim" in (raw / "README.md").read_text()
 
 
 def _constructs_a_bare_pool(path: Path) -> bool:

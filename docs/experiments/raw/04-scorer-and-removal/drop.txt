@@ -1,0 +1,22 @@
+##### 2026-08-16T02:50:18.279Z
+method          shown  appr  rate  sole  fav   noise  dark  base
+ancuti-fusion     141    37  0.26     3    5      10%    39%    27%
+channel-stretch   141    76  0.54     6    7      14%    57%    67%
+dicam             141    79  0.56     6    8      28%    39%    71%
+dive-plus          70    64  0.91    32    9      96%   100%    86%
+gray-world        141    12  0.09     1    2       0%     4%    13%
+original          141     6  0.04     0    0       3%     7%     4%
+white-patch       141    21  0.15     0    2       0%    29%    15%
+
+gray-world sole approvals: ['2025-08-11-webers-joy/5c05b3ced646e734[baseline]']
+white-patch sole approvals: []
+ancuti-fusion sole approvals: ['2024-03-10-candyland/1b9664287af2aab3[baseline]', '2024-03-10-something-special/55dfa318f5711a3a[dark]', '2025-04-04-blue-heron-bridge/46ea340094c865d0[baseline]']
+original sole approvals: []
+drop []                                            stranded= 0  top1(contrast-nr+dp)= 86.5% (n=141)
+drop ['gray-world']                                stranded= 1  top1(contrast-nr+dp)= 87.1% (n=140)
+drop ['white-patch']                               stranded= 0  top1(contrast-nr+dp)= 85.8% (n=141)
+drop ['gray-world', 'white-patch']                 stranded= 1  top1(contrast-nr+dp)= 86.4% (n=140)
+drop ['gray-world', 'white-patch', 'ancuti-fusion'] stranded= 5  top1(contrast-nr+dp)= 89.0% (n=136)
+drop ['ancuti-fusion']                             stranded= 3  top1(contrast-nr+dp)= 88.4% (n=138)
+Shell cwd was reset to /Users/mfk/dev/photogen
+

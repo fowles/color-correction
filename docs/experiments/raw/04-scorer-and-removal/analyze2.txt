@@ -1,0 +1,65 @@
+##### 2026-08-16T02:42:43.035Z
+baseline uciqe-nr      overall= 74.5%  noise-risk= 44.8%  dark= 85.7%  baseline= 81.0%  pairs= 83.9%
+l_contrast             overall= 78.7%  noise-risk= 62.1%  dark= 85.7%  baseline= 82.1%  pairs= 85.4%
+uciqe-nr + dive+ first overall= 85.1%  noise-risk= 86.2%  dark= 89.3%  baseline= 83.3%  pairs= 85.5%
+l_contrast + dive+ 1st overall= 85.8%  noise-risk= 86.2%  dark= 89.3%  baseline= 84.5%  pairs= 86.3%
+  photos with dive-plus shown: 70; strata Counter({'baseline': 37, 'noise-risk': 24, 'dark': 9})
+  on those, uciqe-nr: overall= 70.0%  noise-risk= 45.8%  dark= 88.9%  baseline= 81.1%  pairs= 86.1%
+  on those, l_contrast: overall= 77.1%  noise-risk= 66.7%  dark= 88.9%  baseline= 81.1%  pairs= 87.7%
+  photos WITHOUT dive-plus: 71
+  on those, uciqe-nr: overall= 78.9%  noise-risk= 40.0%  dark= 84.2%  baseline= 80.9%  pairs= 81.6%
+  on those, l_contrast: overall= 80.3%  noise-risk= 40.0%  dark= 84.2%  baseline= 83.0%  pairs= 83.0%
+
+2-feature combos with l_contrast (raw scale weights):
+  speckle_a        w=-0.25sd  overall= 80.9%  noise-risk= 62.1%  dark= 89.3%  baseline= 84.5%  pairs= 85.9%
+  sat_clip         w=-2.00sd  overall= 80.9%  noise-risk= 82.8%  dark= 78.6%  baseline= 81.0%  pairs= 84.6%
+  a_std            w=-0.25sd  overall= 80.1%  noise-risk= 69.0%  dark= 82.1%  baseline= 83.3%  pairs= 86.4%
+  g_mean           w=-0.25sd  overall= 79.4%  noise-risk= 62.1%  dark= 89.3%  baseline= 82.1%  pairs= 87.2%
+  a_std            w=-0.50sd  overall= 79.4%  noise-risk= 72.4%  dark= 78.6%  baseline= 82.1%  pairs= 86.1%
+  chroma_hi        w=-1.00sd  overall= 79.4%  noise-risk= 62.1%  dark= 89.3%  baseline= 82.1%  pairs= 85.5%
+  clip_lo          w=-2.00sd  overall= 79.4%  noise-risk= 82.8%  dark= 71.4%  baseline= 81.0%  pairs= 83.0%
+  l_mean           w=-0.25sd  overall= 78.7%  noise-risk= 58.6%  dark= 89.3%  baseline= 82.1%  pairs= 86.8%
+  sat_clip         w=-0.25sd  overall= 78.7%  noise-risk= 62.1%  dark= 85.7%  baseline= 82.1%  pairs= 85.7%
+  chroma_hi        w=-0.25sd  overall= 78.7%  noise-risk= 62.1%  dark= 85.7%  baseline= 82.1%  pairs= 85.6%
+  chroma_hi        w=-0.50sd  overall= 78.7%  noise-risk= 62.1%  dark= 85.7%  baseline= 82.1%  pairs= 85.6%
+  speckle_a        w=-0.50sd  overall= 78.7%  noise-risk= 62.1%  dark= 89.3%  baseline= 81.0%  pairs= 85.1%
+  chroma_hi        w=-2.00sd  overall= 78.7%  noise-risk= 62.1%  dark= 85.7%  baseline= 82.1%  pairs= 85.1%
+  b_span           w=+0.25sd  overall= 78.7%  noise-risk= 62.1%  dark= 85.7%  baseline= 82.1%  pairs= 84.9%
+  r_span           w=+0.50sd  overall= 78.7%  noise-risk= 65.5%  dark= 85.7%  baseline= 81.0%  pairs= 84.8%
+  a_mean           w=+0.25sd  overall= 78.0%  noise-risk= 62.1%  dark= 85.7%  baseline= 81.0%  pairs= 86.2%
+  b_mean_rgb       w=-0.25sd  overall= 78.0%  noise-risk= 62.1%  dark= 89.3%  baseline= 79.8%  pairs= 86.1%
+  b_std            w=+0.25sd  overall= 78.0%  noise-risk= 62.1%  dark= 82.1%  baseline= 82.1%  pairs= 85.8%
+  sat_clip         w=-0.50sd  overall= 78.0%  noise-risk= 62.1%  dark= 82.1%  baseline= 82.1%  pairs= 85.7%
+  uicm             w=-0.25sd  overall= 78.0%  noise-risk= 62.1%  dark= 85.7%  baseline= 81.0%  pairs= 85.6%
+
+Logistic-regression pairwise model (grouped CV):
+  no sklearn; using numpy GD
+  all                            C=0.01  overall= 80.1%  noise-risk= 72.4%  dark= 85.7%  baseline= 81.0%  pairs= 86.8%
+  all                            C=0.1   overall= 80.1%  noise-risk= 72.4%  dark= 89.3%  baseline= 79.8%  pairs= 85.8%
+  all                            C=1.0   overall= 80.1%  noise-risk= 72.4%  dark= 89.3%  baseline= 79.8%  pairs= 85.8%
+     full-fit weights: a_std=-1.07, b_span=+1.03, r_span=+0.79, g_span=+0.51, colorfulness=-0.49, hue_bluecyan=+0.45, hsv_sat_p95=+0.45, b_std=+0.41
+  uciqe parts                    C=0.01  overall= 73.0%  noise-risk= 62.1%  dark= 78.6%  baseline= 75.0%  pairs= 84.1%
+  uciqe parts                    C=0.1   overall= 73.8%  noise-risk= 62.1%  dark= 78.6%  baseline= 76.2%  pairs= 84.1%
+  uciqe parts                    C=1.0   overall= 73.8%  noise-risk= 62.1%  dark= 78.6%  baseline= 76.2%  pairs= 83.9%
+     full-fit weights: l_contrast=+2.21, speckle_a=-0.37, chroma_std=-0.37, sat_mean=-0.14
+  lc+entropy+lstd                C=0.01  overall= 74.5%  noise-risk= 62.1%  dark= 75.0%  baseline= 78.6%  pairs= 84.9%
+  lc+entropy+lstd                C=0.1   overall= 74.5%  noise-risk= 62.1%  dark= 75.0%  baseline= 78.6%  pairs= 84.9%
+  lc+entropy+lstd                C=1.0   overall= 74.5%  noise-risk= 62.1%  dark= 75.0%  baseline= 78.6%  pairs= 84.9%
+     full-fit weights: l_contrast=+1.17, l_std=+1.04, entropy=+0.08
+  lc+speckle                     C=0.01  overall= 70.9%  noise-risk= 62.1%  dark= 75.0%  baseline= 72.6%  pairs= 85.3%
+  lc+speckle                     C=0.1   overall= 69.5%  noise-risk= 62.1%  dark= 71.4%  baseline= 71.4%  pairs= 84.9%
+  lc+speckle                     C=1.0   overall= 66.7%  noise-risk= 62.1%  dark= 64.3%  baseline= 69.0%  pairs= 84.5%
+     full-fit weights: l_contrast=+1.89, speckle_L=+0.99, speckle_a=-0.68
+  lc+clip                        C=0.01  overall= 75.9%  noise-risk= 62.1%  dark= 78.6%  baseline= 79.8%  pairs= 85.7%
+  lc+clip                        C=0.1   overall= 75.2%  noise-risk= 62.1%  dark= 75.0%  baseline= 79.8%  pairs= 85.7%
+  lc+clip                        C=1.0   overall= 75.2%  noise-risk= 62.1%  dark= 75.0%  baseline= 79.8%  pairs= 85.7%
+     full-fit weights: l_contrast=+2.05, clip_lo_any=-0.46, clip_hi_any=-0.20
+  lc+color                       C=0.01  overall= 75.9%  noise-risk= 65.5%  dark= 82.1%  baseline= 77.4%  pairs= 84.7%
+  lc+color                       C=0.1   overall= 75.2%  noise-risk= 65.5%  dark= 78.6%  baseline= 77.4%  pairs= 83.9%
+  lc+color                       C=1.0   overall= 74.5%  noise-risk= 65.5%  dark= 75.0%  baseline= 77.4%  pairs= 83.9%
+     full-fit weights: l_contrast=+2.19, r_frac=+0.68, hue_bluecyan=+0.45, chroma_std=-0.43, cast=-0.16
+  lc+lstd+entropy+clip+speckle   C=0.01  overall= 73.8%  noise-risk= 62.1%  dark= 71.4%  baseline= 78.6%  pairs= 84.6%
+  lc+lstd+entropy+clip+speckle   C=0.1   overall= 73.8%  noise-risk= 62.1%  dark= 75.0%  baseline= 77.4%  pairs= 84.9%
+  lc+lstd+entropy+clip+speckle   C=1.0   overall= 73.8%  noise-risk= 62.1%  dark= 75.0%  baseline= 77.4%  pairs= 84.7%
+     full-fit weights: l_contrast=+1.30, l_std=+0.95, speckle_a=-0.51, clip_lo_any=-0.33, clip_hi_any=-0.16, entropy=-0.02
+

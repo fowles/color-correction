@@ -46,6 +46,13 @@ web/            the static demo page: index.html (UI), worker.js (boots Pyodide
                 and runs correct.py off the main thread), glue.py (RGBA <->
                 numpy and the menu; unit-tested under CPython in test_web.py),
                 dicam.onnx (DICAM for onnxruntime-web, from export_dicam.py)
+docs/methods/   one page per GENERATED_METHODS entry, citing its source
+docs/experiments/  every eval behind the methods and menu: one page each,
+                the pseudonymized labels (data/), the script that recomputes
+                results/approvals.md from them (analysis/), and verbatim raw
+                outputs and scripts recovered from the sessions (raw/). A
+                new claim about how well a method does goes here, with its
+                data or raw output, and the comment or doc links to it
 ```
 
 ## The method menu
@@ -85,7 +92,7 @@ web page links each tile to its doc on GitHub (so it renders).
   hue-rotation matrix — a rotation of the red primary about the gray axis) with G/B untouched and the angle `h` interpolated from the
   frame's mean red (~90° when red-starved, ~20° when already red), followed
   by a 0.4/99.9 per-channel percentile stretch. The angle table and
-  percentiles were fitted to 160 hand-corrected pairs. Red is *synthesised*
+  percentiles were fitted to 100 hand-corrected pairs (plus 60 held out). Red is *synthesised*
   from green/blue rather than gained, which is why it needs no gain ceiling
   and is markedly less noisy than `channel_stretch` on red-starved frames.
 - **`channel_stretch` caps per-channel gain at `MAX_CHANNEL_GAIN` 6.0**: a
@@ -132,6 +139,13 @@ web page links each tile to its doc on GitHub (so it renders).
 - The CLI corrects only what it decodes itself, so `--variants all` means
   every entry of `GENERATED_METHODS` — a consumer's file-backed corrections
   (photogen's `dive-plus`, `google`) are not this package's vocabulary.
+- **`docs/experiments/results/approvals.md` is generated** by
+  `docs/experiments/analysis/approvals.py` from `data/variant-approvals.jsonl`;
+  after changing either, regenerate it, or
+  `test_the_committed_results_are_what_the_analysis_prints` fails. The data is
+  pseudonymized (`labeler-N`); `test_labelers_are_pseudonymous` keeps real
+  names out. `raw/` is a verbatim record: never edit a file there, even to add
+  the SPDX header (it is exempt for that reason).
 - The suite is hermetic: `tests/conftest.py` stubs the DICAM model by default,
   so no test needs the downloaded checkpoint or runs real inference.
   `test_dicam.py` opts out and drives the real loader with its own fakes.
