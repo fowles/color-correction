@@ -38,13 +38,27 @@ def test_only_dicam_runs_as_a_model_and_its_model_is_committed(glue):
     assert (WEB / "dicam.onnx").is_file()
 
 
+def test_only_dicam_is_marked_approximate(glue):
+    """The page's dicam runs at DICAM_WEB_LONGEST, not the library's
+    WORK_LONGEST; every other method runs the library's own code."""
+    marked = {m["name"] for m in glue.menu() if m["approximate"]}
+    assert marked == {"dicam"}
+
+
 def test_the_menu_leads_with_the_defaults_in_precedence_order(glue):
     menu = glue.menu()
     lead = [m["name"] for m in menu[:len(DEFAULT_VARIANTS)]]
     assert lead == list(DEFAULT_VARIANTS)
-    assert [m["default"] for m in menu] == (
-        [True] * len(DEFAULT_VARIANTS)
-        + [False] * (len(menu) - len(DEFAULT_VARIANTS)))
+
+
+def test_every_method_links_to_a_committed_doc(glue):
+    """The page links each tile to docs/methods/<name>.md on GitHub; a new
+    method without a doc would link to a 404."""
+    prefix = "https://github.com/fowles/underwater-color/blob/main/"
+    root = WEB.parent
+    for m in glue.menu():
+        assert m["docs"].startswith(prefix)
+        assert (root / m["docs"][len(prefix):]).is_file(), m["name"]
 
 
 def test_correct_round_trips_canvas_rgba(glue):

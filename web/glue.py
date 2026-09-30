@@ -34,14 +34,22 @@ ONNX_MODELS = {"dicam": "dicam.onnx"}
 # differs from the library's by ~1.4 levels mean, ~7 at the 99th percentile.
 DICAM_WEB_LONGEST = 512
 
+# Methods whose page output is not the library's, with the reason the page
+# shows when "(approximate)" is hovered or clicked.
+APPROXIMATE = {"dicam": "runs at lower resolution"}
+
+# Each method's doc, docs/methods/<name>.md, as GitHub renders it.
+DOCS_URL = "https://github.com/fowles/underwater-color/blob/main/docs/methods/{}.md"
+
 
 def menu() -> list[dict]:
     """The methods the page offers, in DEFAULT_VARIANTS precedence then
-    GENERATED_METHODS order, each flagged with whether it is a default."""
+    GENERATED_METHODS order, each with its doc link and, if the page only
+    approximates it, why."""
     order = list(DEFAULT_VARIANTS) + [
         m for m in GENERATED_METHODS if m not in DEFAULT_VARIANTS]
-    return [{"name": m, "default": m in DEFAULT_VARIANTS,
-             "model": ONNX_MODELS.get(m)}
+    return [{"name": m, "docs": DOCS_URL.format(m),
+             "model": ONNX_MODELS.get(m), "approximate": APPROXIMATE.get(m)}
             for m in order if m not in UNAVAILABLE]
 
 

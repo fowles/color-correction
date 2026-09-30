@@ -67,13 +67,23 @@
     position: absolute; inset: 0; display: grid; place-items: center;
     color: var(--muted); font-size: .9rem;
   }
-  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 10px 12px; }
+  .meta { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 10px 12px; }
   .meta .right { display: flex; gap: 10px; align-items: baseline; margin-left: auto; white-space: nowrap; }
   .name { white-space: nowrap; font-weight: 600; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9rem; }
-  .badge {
-    font-size: .72rem; padding: 1px 7px; border-radius: 99px;
-    background: var(--accent-soft); color: var(--accent); font-weight: 600;
+  .approx { color: var(--muted); font-size: .85rem; cursor: help; }
+  /* Drawn by the page, not a title attribute: the native tooltip doesn't
+     show in every browser. Positioned against .meta and capped at its
+     width, so it never overflows the tile's clipped edge. */
+  .approx::after {
+    content: attr(data-tip); position: absolute; left: 8px; bottom: calc(100% + 4px);
+    width: max-content; max-width: calc(100% - 16px);
+    padding: 6px 10px; border-radius: 8px; background: var(--text); color: var(--bg);
+    font-size: .8rem; line-height: 1.4; pointer-events: none; z-index: 1;
+    opacity: 0; transition: opacity .12s;
   }
+  /* :focus, not :focus-visible, so a click or tap also shows it (and clicking
+     away hides it). */
+  .approx:hover::after, .approx:focus::after { opacity: 1; }
   .ms { color: var(--muted); font-size: .8rem; font-variant-numeric: tabular-nums; }
   .meta a { color: var(--accent); font-size: .85rem; text-decoration: none; }
   .meta a:hover { text-decoration: underline; }
@@ -156,7 +166,7 @@
 const $ = (id) => document.getElementById(id);
 const worker = new Worker("worker.js", { type: "module" });
 
-let menu = null;          // [{name, default}] from glue.menu()
+let menu = null;          // [{name, docs, model, approximate}] from glue.menu()
 let job = null;           // {id, stem, width, height, tiles: Map(name -> tile)}
 let pendingFile = null;   // chosen before the worker was ready
 let jobCounter = 0;
@@ -195,26 +205,33 @@ worker.onmessage = ({ data }) => {
 };
 worker.onerror = (e) => setStatus(`Worker error: ${e.message}`, true);
 
-function makeTile(name, isDefault) {
+function makeTile(name, { docs = null, approximate = null } = {}) {
   const el = document.createElement("div");
   el.className = "tile";
   el.innerHTML = `
     <button class="frame" type="button"><canvas></canvas><div class="pending">waiting…</div></button>
-    <div class="meta"><span class="name"></span><span class="right"><span class="ms"></span><a download aria-disabled="true">download</a></span></div>
+    <div class="meta"><span class="name"></span><span class="right"><span class="ms"></span><a class="docs" target="_blank" rel="noopener" hidden>docs</a><a download aria-disabled="true">download</a></span></div>
     <div class="err" hidden></div>`;
   el.querySelector(".name").textContent = name;
-  if (isDefault) {
-    const b = document.createElement("span");
-    b.className = "badge"; b.textContent = "default";
-    b.title = "In DEFAULT_VARIANTS";
-    el.querySelector(".name").after(b);
+  if (docs) {
+    const d = el.querySelector("a.docs");
+    d.href = docs; d.hidden = false;
+    d.title = `How ${name} works, and where it comes from`;
+  }
+  if (approximate) {
+    const a = document.createElement("span");
+    a.className = "approx"; a.textContent = "(approximate)";
+    a.dataset.tip = approximate;
+    a.tabIndex = 0;
+    a.setAttribute("aria-label", `approximate: ${approximate}`);
+    el.querySelector(".name").after(a);
   }
   const tile = {
-    el, name,
+    el, name, approximate,
     canvas: el.querySelector("canvas"),
     pending: el.querySelector(".pending"),
     ms: el.querySelector(".ms"),
-    link: el.querySelector("a"),
+    link: el.querySelector("a[download]"),
     err: el.querySelector(".err"),
     ready: false,
   };
@@ -284,12 +301,12 @@ async function load(file) {
   const grid = $("grid");
   grid.replaceChildren();
   grid.style.setProperty("--ar", `${width} / ${height}`);
-  const original = makeTile("original", false);
+  const original = makeTile("original");
   job.tiles.set("original", original);
   grid.append(original.el);
   paint(original, width, height, new Uint8ClampedArray(rgba));
-  for (const { name, default: isDefault } of menu) {
-    const t = makeTile(name, isDefault);
+  for (const { name, docs, approximate } of menu) {
+    const t = makeTile(name, { docs, approximate });
     job.tiles.set(name, t);
     grid.append(t.el);
   }
@@ -320,7 +337,8 @@ function drawViewer() {
   const dst = $("v-canvas");
   dst.width = src.width; dst.height = src.height;
   dst.getContext("2d").drawImage(src, 0, 0);
-  $("v-name").textContent = showingOriginal ? `original (holding, ${viewing})` : viewing;
+  const label = job.tiles.get(viewing).approximate ? `${viewing} (approximate)` : viewing;
+  $("v-name").textContent = showingOriginal ? `original (holding, ${label})` : label;
 }
 
 function openViewer(name) {

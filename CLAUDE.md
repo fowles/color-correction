@@ -70,8 +70,10 @@ variant on 1 / 0 photos, and dropping both left top-1 selection unchanged.
 **Do not re-add them.**
 
 **Every `GENERATED_METHODS` entry has `docs/methods/<name>.md`**, citing the
-primary source it comes from or saying it is original to this library.
-`test_every_generated_method_has_a_doc` catches a missing one.
+primary source it comes from or saying it is original to this library. The
+web page links each tile to its doc on GitHub (so it renders).
+`test_every_generated_method_has_a_doc` catches a missing one, and
+`test_every_method_links_to_a_committed_doc` checks the page's links.
 
 ## Algorithms
 

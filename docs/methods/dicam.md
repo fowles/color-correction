@@ -20,8 +20,8 @@ The result has DICAM's color with the original's full-resolution detail.
 
 **On the web page** the network runs through onnxruntime-web at 512 px
 instead of 1024, because the browser cannot allocate enough memory for
-more. It differs from the library's output by about 1.4 levels on average
-(7 at the 99th percentile).
+more. The page marks it "approximate": it differs from the library's
+output by about 1.4 levels on average (7 at the 99th percentile).
 
 ## Source
 
