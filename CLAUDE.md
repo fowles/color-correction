@@ -42,6 +42,9 @@ underwater_color/
   _pool.py      interruptible_pool/max_workers
   _imageio.py   open_image (always upright: exif_transpose)
   vendor/dicam/ the upstream DICAM network, with its own LICENSE and NOTICE
+web/            the static demo page: index.html (UI), worker.js (boots Pyodide
+                and runs correct.py off the main thread), glue.py (RGBA <->
+                numpy and the menu; unit-tested under CPython in test_web.py)
 ```
 
 ## The method menu
@@ -123,6 +126,23 @@ variant on 1 / 0 photos, and dropping both left top-1 selection unchanged.
 - The suite is hermetic: `tests/conftest.py` stubs the DICAM model by default,
   so no test needs the downloaded checkpoint or runs real inference.
   `test_dicam.py` opts out and drives the real loader with its own fakes.
+- **The web page runs the real `correct.py` in Pyodide**, not a port, so
+  `correct.py` (and `web/glue.py`) may import at module level only numpy,
+  cv2, the stdlib and `underwater_color.correct`. Anything else must either
+  be imported lazily inside the function that needs it (as `dicam_correct`
+  imports torch) or be added to `PACKAGES` in `web/worker.js`, and it must
+  exist in Pyodide. `test_the_browser_sources_import_only_what_the_worker_provides`
+  enforces this. The page offers every `GENERATED_METHODS` entry except the
+  ones in `glue.UNAVAILABLE` (only `dicam`), so a new method appears on the
+  page automatically.
+- **GitHub Pages serves the repo root from `main`** (branch mode, no
+  workflow), so the page is at `/web/` there exactly as when serving the repo
+  root locally, and the worker's `../underwater_color/correct.py` resolves in
+  both. Moving `web/` or `correct.py` breaks the published page;
+  `test_every_file_the_worker_fetches_exists_where_pages_serves_it` catches it.
+- `web/worker.js` must stay a **module** worker: Pyodide 314 refuses to boot
+  in a classic one ("Classic web workers are not supported"). Cross-origin
+  `importScripts` hides that error behind a generic NetworkError.
 - `video.probe` reads only duration and dimensions, via `ffprobe`. Container
   introspection proper — camera identity, orientation, the byte-level
   mvhd/tkhd/EXIF parsing — stays in the caller; this package never touches it.

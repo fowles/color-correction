@@ -3,6 +3,10 @@
 Underwater photo and video color correction: closed-form and learned methods,
 numpy in and numpy out for stills, one clip-wide ffmpeg filter for video.
 
+**[Try it in your browser →](https://fowles.github.io/color-correction/web/)**
+Upload a photo and compare every correction side by side. It runs locally,
+and nothing is uploaded ([details](#in-the-browser)).
+
 Extracted from [photogen](https://github.com/fowles/photogen).
 
 ## Install
@@ -76,3 +80,18 @@ any method with no clip-wide form, rather than failing the run.
 
 Downloads the sha256-pinned DICAM checkpoint into
 `~/.cache/underwater-color/dicam/`. Only needed for the `dicam` method.
+
+### In the browser
+
+`web/` is a static page: upload a photo and it shows every correction except
+`dicam` side by side. It runs this package's own `correct.py` in
+[Pyodide](https://pyodide.org) inside a Web Worker, so the page is not a port:
+its output matches the library's (to within one level, from floating-point
+rounding). The photo never leaves the browser. Serve the **repo root**,
+because the worker fetches `../underwater_color/correct.py`:
+
+    python -m http.server -d .     # then open http://localhost:8000/web/
+
+The published copy is GitHub Pages serving the repo root from `main`, laid
+out the same way. The first visit downloads about 30 MB (Python, numpy, OpenCV) from the
+jsDelivr CDN, which the browser then caches.

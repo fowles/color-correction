@@ -1,0 +1,362 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: MIT -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Underwater Color</title>
+<link rel="icon" href="data:,">
+<meta name="description" content="Upload an underwater photo and compare every underwater-color correction, computed in your browser.">
+<style>
+  :root {
+    --bg: #f4f6f8; --surface: #ffffff; --text: #16202a; --muted: #5b6b7a;
+    --border: #d6dde4; --accent: #0a6e8a; --accent-soft: #e0f0f5; --danger: #b3261e;
+    --shadow: 0 1px 2px rgb(0 0 0 / .06), 0 4px 12px rgb(0 0 0 / .05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1419; --surface: #151f27; --text: #e3eaf0; --muted: #8d9dab;
+      --border: #26343f; --accent: #4cc0dd; --accent-soft: #123340; --danger: #f2877f;
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1419; --surface: #151f27; --text: #e3eaf0; --muted: #8d9dab;
+    --border: #26343f; --accent: #4cc0dd; --accent-soft: #123340; --danger: #f2877f;
+    --shadow: none;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 1400px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; letter-spacing: -.01em; }
+  .lede { color: var(--muted); margin: 0 0 20px; max-width: 70ch; }
+  .lede code { font-size: .9em; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 20px; }
+  .drop {
+    flex: 1 1 320px; display: flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 72px; padding: 12px 16px; border: 2px dashed var(--border); border-radius: 12px;
+    background: var(--surface); color: var(--muted); cursor: pointer; text-align: center;
+    transition: border-color .15s, background .15s;
+  }
+  .drop:hover, .drop.over { border-color: var(--accent); background: var(--accent-soft); color: var(--text); }
+  .drop input { display: none; }
+  .drop strong { color: var(--accent); }
+  label.size { display: flex; align-items: center; gap: 8px; color: var(--muted); }
+  select {
+    font: inherit; color: var(--text); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px;
+  }
+  .status { color: var(--muted); font-size: .9rem; min-height: 1.5em; margin: -8px 0 16px; }
+  .status.error { color: var(--danger); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 16px; }
+  .tile {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    overflow: hidden; box-shadow: var(--shadow); display: flex; flex-direction: column;
+  }
+  .frame {
+    position: relative; aspect-ratio: var(--ar, 4 / 3); background: var(--border);
+    cursor: zoom-in; border: 0; padding: 0; display: block; width: 100%;
+  }
+  .frame canvas { width: 100%; height: 100%; display: block; object-fit: contain; }
+  .frame .pending {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    color: var(--muted); font-size: .9rem;
+  }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 10px 12px; }
+  .meta .right { display: flex; gap: 10px; align-items: baseline; margin-left: auto; white-space: nowrap; }
+  .name { white-space: nowrap; font-weight: 600; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9rem; }
+  .badge {
+    font-size: .72rem; padding: 1px 7px; border-radius: 99px;
+    background: var(--accent-soft); color: var(--accent); font-weight: 600;
+  }
+  .ms { color: var(--muted); font-size: .8rem; font-variant-numeric: tabular-nums; }
+  .meta a { color: var(--accent); font-size: .85rem; text-decoration: none; }
+  .meta a:hover { text-decoration: underline; }
+  .meta a[aria-disabled="true"] { visibility: hidden; }
+  .tile .err { color: var(--danger); padding: 0 12px 10px; font-size: .85rem; }
+
+  .viewer {
+    position: fixed; inset: 0; background: #05090c; display: none;
+    flex-direction: column; z-index: 10; color: #e3eaf0;
+  }
+  .viewer.open { display: flex; }
+  .viewer .bar {
+    display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; padding: 10px 16px;
+    font-size: .9rem;
+  }
+  .viewer .bar .name { font-size: 1rem; }
+  .viewer .hint { color: #8d9dab; }
+  .viewer button {
+    font: inherit; color: inherit; background: rgb(255 255 255 / .1); border: 0;
+    border-radius: 8px; padding: 6px 12px; cursor: pointer;
+  }
+  .viewer button:hover { background: rgb(255 255 255 / .2); }
+  .viewer .spacer { flex: 1; }
+  .viewer .stage { flex: 1; min-height: 0; position: relative; margin: 0 16px 16px; user-select: none; }
+  .viewer canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; touch-action: none; }
+  footer { margin-top: 32px; color: var(--muted); font-size: .85rem; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Underwater Color</h1>
+  <p class="lede">
+    Upload an underwater photo to see every correction from
+    <code>underwater-color</code>. It all runs in your browser on the library's own
+    Python code (via Pyodide), and your photo never leaves this page.
+    <code>dicam</code> is left out because it needs torch.
+  </p>
+
+  <div class="controls">
+    <label class="drop" id="drop">
+      <input type="file" id="file" accept="image/*">
+      <span><strong>Choose a photo</strong> or drop it here</span>
+    </label>
+    <label class="size">Working size
+      <select id="size">
+        <option value="1200">1200 px</option>
+        <option value="2048" selected>2048 px</option>
+        <option value="3200">3200 px</option>
+        <option value="0">Full resolution (slower)</option>
+      </select>
+    </label>
+  </div>
+  <div class="status" id="status" role="status">Starting…</div>
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    The first visit downloads about 30&nbsp;MB (Python, numpy, OpenCV). After that,
+    your browser caches it.
+    Source: <a href="https://github.com/fowles/color-correction">fowles/color-correction</a>.
+  </footer>
+</main>
+
+<div class="viewer" id="viewer" aria-modal="true" role="dialog" aria-label="Enlarged correction">
+  <div class="bar">
+    <span class="name" id="v-name"></span>
+    <span class="hint">Hold <kbd>Space</kbd> or press on the image to see the original · <kbd>←</kbd> <kbd>→</kbd> to switch</span>
+    <span class="spacer"></span>
+    <button id="v-prev" aria-label="Previous">←</button>
+    <button id="v-next" aria-label="Next">→</button>
+    <button id="v-close">Close</button>
+  </div>
+  <div class="stage"><canvas id="v-canvas"></canvas></div>
+</div>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const worker = new Worker("worker.js", { type: "module" });
+
+let menu = null;          // [{name, default}] from glue.menu()
+let job = null;           // {id, stem, width, height, tiles: Map(name -> tile)}
+let pendingFile = null;   // chosen before the worker was ready
+let jobCounter = 0;
+
+function setStatus(text, isError = false) {
+  $("status").textContent = text;
+  $("status").classList.toggle("error", isError);
+}
+
+worker.onmessage = ({ data }) => {
+  switch (data.type) {
+    case "status": setStatus(data.text); break;
+    case "ready":
+      menu = data.menu;
+      setStatus("Ready. Choose a photo.");
+      if (pendingFile) { const f = pendingFile; pendingFile = null; load(f); }
+      break;
+    case "result": onResult(data); break;
+    case "error":
+      if (data.name && job && data.id === job.id) {
+        const t = job.tiles.get(data.name);
+        t.pending.textContent = "failed";
+        t.err.textContent = data.text;
+        t.err.hidden = false;
+      } else if (!data.name) {
+        setStatus(data.text, true);
+      }
+      break;
+    case "done":
+      if (job && data.id === job.id) {
+        const total = (performance.now() - job.started) / 1000;
+        setStatus(`Done: ${menu.length} corrections at ${job.width}×${job.height} in ${total.toFixed(1)} s.`);
+      }
+      break;
+  }
+};
+worker.onerror = (e) => setStatus(`Worker error: ${e.message}`, true);
+
+function makeTile(name, isDefault) {
+  const el = document.createElement("div");
+  el.className = "tile";
+  el.innerHTML = `
+    <button class="frame" type="button"><canvas></canvas><div class="pending">waiting…</div></button>
+    <div class="meta"><span class="name"></span><span class="right"><span class="ms"></span><a download aria-disabled="true">download</a></span></div>
+    <div class="err" hidden></div>`;
+  el.querySelector(".name").textContent = name;
+  if (isDefault) {
+    const b = document.createElement("span");
+    b.className = "badge"; b.textContent = "default";
+    b.title = "In DEFAULT_VARIANTS";
+    el.querySelector(".name").after(b);
+  }
+  const tile = {
+    el, name,
+    canvas: el.querySelector("canvas"),
+    pending: el.querySelector(".pending"),
+    ms: el.querySelector(".ms"),
+    link: el.querySelector("a"),
+    err: el.querySelector(".err"),
+    ready: false,
+  };
+  el.querySelector(".frame").addEventListener("click", () => tile.ready && openViewer(name));
+  return tile;
+}
+
+function paint(tile, width, height, rgba) {
+  tile.canvas.width = width;
+  tile.canvas.height = height;
+  tile.canvas.getContext("2d").putImageData(new ImageData(rgba, width, height), 0, 0);
+  tile.pending.remove();
+  tile.ready = true;
+  tile.canvas.toBlob((blob) => {
+    if (tile.link.href) URL.revokeObjectURL(tile.link.href);
+    tile.link.href = URL.createObjectURL(blob);
+    tile.link.download = `${job.stem}.${tile.name}.jpg`;
+    tile.link.removeAttribute("aria-disabled");
+  }, "image/jpeg", 0.95);
+}
+
+function onResult({ id, name, ms, buffer }) {
+  if (!job || id !== job.id) return;
+  const tile = job.tiles.get(name);
+  paint(tile, job.width, job.height, new Uint8ClampedArray(buffer));
+  tile.ms.textContent = `${(ms / 1000).toFixed(1)} s`;
+}
+
+async function load(file) {
+  if (!file) return;
+  if (!menu) { pendingFile = file; setStatus("Still loading Python. Your photo will start as soon as it's ready."); return; }
+  let bitmap;
+  try {
+    // imageOrientation "from-image" applies EXIF rotation, as open_image does.
+    const probe = await createImageBitmap(file, { imageOrientation: "from-image" });
+    const cap = Number($("size").value);
+    const scale = cap ? Math.min(1, cap / Math.max(probe.width, probe.height)) : 1;
+    if (scale < 1) {
+      const resizeWidth = Math.max(1, Math.round(probe.width * scale));
+      const resizeHeight = Math.max(1, Math.round(probe.height * scale));
+      probe.close();
+      bitmap = await createImageBitmap(file, {
+        imageOrientation: "from-image", resizeWidth, resizeHeight, resizeQuality: "high",
+      });
+    } else {
+      bitmap = probe;
+    }
+  } catch (e) {
+    setStatus(`Couldn't decode ${file.name}: this browser can't read that format.`, true);
+    return;
+  }
+  const { width, height } = bitmap;
+  const canvas = new OffscreenCanvas(width, height);
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(bitmap, 0, 0);
+  bitmap.close();
+  const rgba = ctx.getImageData(0, 0, width, height).data;
+
+  if (job) job.tiles.forEach((t) => t.link.href && URL.revokeObjectURL(t.link.href));
+  closeViewer();
+  const id = ++jobCounter;
+  job = {
+    id, width, height, started: performance.now(),
+    stem: file.name.replace(/\.[^.]+$/, "") || "photo",
+    tiles: new Map(),
+  };
+  const grid = $("grid");
+  grid.replaceChildren();
+  grid.style.setProperty("--ar", `${width} / ${height}`);
+  const original = makeTile("original", false);
+  job.tiles.set("original", original);
+  grid.append(original.el);
+  paint(original, width, height, new Uint8ClampedArray(rgba));
+  for (const { name, default: isDefault } of menu) {
+    const t = makeTile(name, isDefault);
+    job.tiles.set(name, t);
+    grid.append(t.el);
+  }
+  setStatus(`Correcting ${width}×${height}…`);
+  worker.postMessage({ type: "correct", id, width, height, buffer: rgba.buffer }, [rgba.buffer]);
+}
+
+$("file").addEventListener("change", (e) => { load(e.target.files[0]); e.target.value = ""; });
+const drop = $("drop");
+["dragenter", "dragover"].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach((ev) => drop.addEventListener(ev, () => drop.classList.remove("over")));
+drop.addEventListener("drop", (e) => { e.preventDefault(); load(e.dataTransfer.files[0]); });
+// Dropping anywhere on the page counts; without this the browser navigates to the file.
+document.addEventListener("dragover", (e) => e.preventDefault());
+document.addEventListener("drop", (e) => { e.preventDefault(); if (e.target !== drop && !drop.contains(e.target)) load(e.dataTransfer.files[0]); });
+
+// --- viewer --------------------------------------------------------------
+let viewing = null;
+let showingOriginal = false;
+
+function readyNames() {
+  return [...job.tiles.values()].filter((t) => t.ready).map((t) => t.name);
+}
+
+function drawViewer() {
+  const name = showingOriginal ? "original" : viewing;
+  const src = job.tiles.get(name).canvas;
+  const dst = $("v-canvas");
+  dst.width = src.width; dst.height = src.height;
+  dst.getContext("2d").drawImage(src, 0, 0);
+  $("v-name").textContent = showingOriginal ? `original (holding, ${viewing})` : viewing;
+}
+
+function openViewer(name) {
+  viewing = name; showingOriginal = false;
+  $("viewer").classList.add("open");
+  drawViewer();
+  $("v-close").focus();
+}
+
+function closeViewer() { viewing = null; $("viewer").classList.remove("open"); }
+
+function step(delta) {
+  const names = readyNames();
+  const i = names.indexOf(viewing);
+  viewing = names[(i + delta + names.length) % names.length];
+  drawViewer();
+}
+
+function hold(on) {
+  if (!viewing || showingOriginal === on) return;
+  showingOriginal = on;
+  drawViewer();
+}
+
+$("v-close").addEventListener("click", closeViewer);
+$("v-prev").addEventListener("click", () => step(-1));
+$("v-next").addEventListener("click", () => step(1));
+const vc = $("v-canvas");
+vc.addEventListener("pointerdown", (e) => { vc.setPointerCapture(e.pointerId); hold(true); });
+["pointerup", "pointercancel"].forEach((ev) => vc.addEventListener(ev, () => hold(false)));
+document.addEventListener("keydown", (e) => {
+  if (!viewing) return;
+  if (e.key === "Escape") closeViewer();
+  else if (e.key === "ArrowLeft") step(-1);
+  else if (e.key === "ArrowRight") step(1);
+  else if (e.key === " ") { e.preventDefault(); hold(true); }
+});
+document.addEventListener("keyup", (e) => { if (e.key === " ") hold(false); });
+</script>
+</body>
+</html>

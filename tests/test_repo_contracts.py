@@ -197,3 +197,95 @@ def test_every_third_party_import_is_declared_in_pyproject():
         f"module(s) imported under underwater_color/ but not declared in "
         f"pyproject.toml (as a dependency or an optional-dependency group): "
         f"{missing}")
+
+
+# --- the static web page ------------------------------------------------------
+#
+# web/worker.js ships only correct.py and web/glue.py into Pyodide, and loads
+# only the Pyodide packages in its PACKAGES list. A module-level import in
+# either file that the list does not cover (a new third-party dependency, or a
+# first-party import of video.py or dicam.py) breaks the page, while every
+# CPython test stays green. Imports inside functions are exempt: they run only
+# when that function is called, which is how dicam_correct gets away with
+# importing torch (the page never offers dicam).
+
+WORKER_JS = ROOT / "web" / "worker.js"
+BROWSER_SOURCES = (PACKAGE_ROOT / "correct.py", ROOT / "web" / "glue.py")
+
+
+def _worker_packages() -> set[str]:
+    m = re.search(r"^const PACKAGES = \[(.*?)\];", WORKER_JS.read_text(), re.M)
+    assert m, "anti-vacuity: PACKAGES not found in web/worker.js"
+    return {_normalize(p) for p in re.findall(r'"([^"]+)"', m.group(1))}
+
+
+def _module_level_imports(path: Path) -> set[str]:
+    """Dotted module names imported at module level only (tree.body).
+
+    ``from underwater_color import video`` names a submodule, not an
+    attribute, so it is recorded as ``underwater_color.video``; recording
+    only the package would let it through as shipped."""
+    modules: set[str] = set()
+    for node in ast.parse(path.read_text(), filename=str(path)).body:
+        if isinstance(node, ast.Import):
+            modules.update(a.name for a in node.names)
+        elif isinstance(node, ast.ImportFrom) and node.module and not node.level:
+            if node.module == "underwater_color":
+                modules.update(f"underwater_color.{a.name}" for a in node.names)
+            else:
+                modules.add(node.module)
+    return modules
+
+
+def test_the_browser_sources_import_only_what_the_worker_provides():
+    packages = _worker_packages()
+    # The worker writes correct.py (and an empty __init__) and glue.py.
+    shipped = {"underwater_color", "underwater_color.correct", "glue"}
+    imported = set()
+    for path in BROWSER_SOURCES:
+        imported |= _module_level_imports(path)
+    # Anti-vacuity guard: both the scan and the package list saw something.
+    assert {"numpy", "cv2", "underwater_color.correct"} <= imported
+    assert packages
+    missing = sorted(
+        m for m in imported
+        if m not in shipped
+        and m.split(".")[0] not in sys.stdlib_module_names
+        and _normalize(DIST_NAME.get(m.split(".")[0], m.split(".")[0]))
+        not in packages)
+    assert not missing, (
+        f"module-level import(s) in {[p.name for p in BROWSER_SOURCES]} that "
+        f"web/worker.js neither ships nor lists in PACKAGES: {missing}")
+
+
+def test_the_worker_ships_the_files_the_scan_checks():
+    """Anti-vacuity guard for the test above: if worker.js stopped shipping
+    either file under the name assumed there, the scan would be checking the
+    wrong thing."""
+    src = WORKER_JS.read_text()
+    assert '"underwater_color/correct.py": "../underwater_color/correct.py"' in src
+    assert '"glue.py": "glue.py"' in src
+
+
+def test_the_worker_is_a_module_worker():
+    """Pyodide 314 refuses to boot in a classic worker, and a cross-origin
+    importScripts reports that only as a generic NetworkError."""
+    page = (ROOT / "web" / "index.html").read_text()
+    assert 'new Worker("worker.js", { type: "module" })' in page
+    src = WORKER_JS.read_text()
+    assert "importScripts(" not in src
+    assert re.search(r'^import \{ loadPyodide \} from "https://', src, re.M)
+
+
+
+def test_every_file_the_worker_fetches_exists_where_pages_serves_it():
+    """Pages serves the repo root, so each SOURCES url, resolved against
+    web/, must be a real tracked file; moving web/ or correct.py breaks the
+    published page while every CPython test still passes."""
+    m = re.search(r"^const SOURCES = \{(.*?)^\};", WORKER_JS.read_text(),
+                  re.M | re.S)
+    assert m, "anti-vacuity: SOURCES not found in web/worker.js"
+    urls = re.findall(r':\s*"([^"]+)"', m.group(1))
+    assert "../underwater_color/correct.py" in urls  # anti-vacuity
+    missing = [u for u in urls if not (ROOT / "web" / u).is_file()]
+    assert not missing, f"web/worker.js fetches missing file(s): {missing}"
