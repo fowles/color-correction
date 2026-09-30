@@ -1,6 +1,6 @@
 # underwater-color
 
-Underwater photo and video colour correction as a library: **numpy in, numpy
+Underwater photo and video color correction as a library: **numpy in, numpy
 out** for stills, and **one clip-wide ffmpeg filter expression** for video.
 No site, no photo library, no config, no sidecars — the caller owns files and
 metadata, this package owns pixels.
@@ -68,7 +68,7 @@ variant on 1 / 0 photos, and dropping both left top-1 selection unchanged.
 ## Algorithms
 
 - **`hue_shift` is a closed form of Dive+**, reverse-engineered from 160
-  original→Dive+ pairs: one GLOBAL 3×3 colour matrix, where red is
+  original→Dive+ pairs: one GLOBAL 3×3 color matrix, where red is
   reconstructed as a hue-shifted mix of all three channels (`_hue_shift_row(h)`,
   the `hue_shift_red` row of bornfree/dive-color-corrector, MIT) with the angle
   interpolated from the frame's mean red, followed by a 0.4/99.9 per-channel
@@ -78,13 +78,13 @@ variant on 1 / 0 photos, and dropping both left top-1 selection unchanged.
 - **`channel_stretch` caps per-channel gain at `MAX_CHANNEL_GAIN` 6.0**: a
   channel spanning only a handful of the 256 levels carries no recoverable
   signal — the span *is* the noise floor — so stretching it to full range
-  amplifies ±1 LSB into gross colour speckle rather than restoring detail.
+  amplifies ±1 LSB into gross color speckle rather than restoring detail.
 - **`_mix_red` clips before the stretch**, exactly as ffmpeg's
   `colorchannelmixer` clips before `colorlevels`, so the photo and video paths
   agree on the same pixels.
 - **Video bakes ONE frozen filter per clip**, its parameters estimated from 12
   sampled frames and then held for the clip's whole length. Per-frame
-  estimation breathes — the colour visibly pulses shot to shot.
+  estimation breathes — the color visibly pulses shot to shot.
 - **`dicam.preflight()` fires only when `dicam` is in play**, and torch is
   imported lazily inside the functions that need it, so the `[dicam]` extra
   stays optional and a plain `import underwater_color` never pays torch's

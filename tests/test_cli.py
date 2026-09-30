@@ -172,7 +172,7 @@ requires_ffmpeg = pytest.mark.skipif(
 
 
 def _write_clip(path):
-    """A one-second, red-starved clip — an underwater frame's colour shape."""
+    """A one-second, red-starved clip — an underwater frame's color shape."""
     video._run([
         "ffmpeg", "-nostdin", "-y", "-f", "lavfi",
         "-i", "color=c=0x102040:size=64x48:rate=10:duration=1",

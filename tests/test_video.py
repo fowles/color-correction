@@ -160,7 +160,7 @@ def test_baked_gain_matches_channel_stretch(tmp_path):
     the same transform, so video and photo corrections agree."""
     from PIL import Image
     src = tmp_path / "src.mp4"
-    # A flat, red-suppressed colour so the comparison is not confounded by
+    # A flat, red-suppressed color so the comparison is not confounded by
     # inter-frame codec noise on a busy test pattern.
     video._run([
         "ffmpeg", "-nostdin", "-y", "-f", "lavfi",

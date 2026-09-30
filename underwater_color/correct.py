@@ -42,7 +42,7 @@ def channel_gains(arr: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     Gains are capped at MAX_CHANNEL_GAIN. A channel spanning only a handful of
     the 256 levels carries no recoverable signal — the span *is* the
     sensor/compression noise floor — so stretching it to full range amplifies
-    +-1 LSB of noise into gross colour speckle rather than restoring detail.
+    +-1 LSB of noise into gross color speckle rather than restoring detail.
     """
     los, his = _percentile_bounds(arr, LOW_PCT, HIGH_PCT)
     gains = np.minimum(255.0 / (his - los), MAX_CHANNEL_GAIN)
@@ -60,7 +60,7 @@ def channel_stretch(arr: np.ndarray) -> np.ndarray:
 #
 # A closed form of Dive+, the hand correction labelers approve 91% of the time.
 # Reverse-engineered on 2026-08-15 from 160 original->Dive+ pairs in this
-# library: Dive+ is one GLOBAL 3x3 colour matrix + offset (a free linear fit
+# library: Dive+ is one GLOBAL 3x3 color matrix + offset (a free linear fit
 # reproduces it to 1.1 RMSE with no spatial structure left in the residual),
 # and that matrix decomposes into (1) red reconstructed as a hue-shifted mix of
 # all three channels — the "hue_shift_red" row of bornfree/dive-color-corrector
@@ -138,10 +138,10 @@ def hue_shift(arr: np.ndarray) -> np.ndarray:
 # ancuti-fusion: its sigma=20 unsharp step (_sharpen) is really a clarity /
 # local-contrast pass. The cast and darkening they disliked came from the
 # gray-world white balance and the gamma=2 fusion input, which are NOT
-# borrowed — the colour here is exactly hue_shift's.
+# borrowed — the color here is exactly hue_shift's.
 #
 #   * Luminance-only: the pass runs on CIELAB L with a*/b* passed through
-#     untouched, so colour never moves.
+#     untouched, so color never moves.
 #   * Gated: flat open water (a smooth blue gradient, faint 8-bit banding,
 #     backscatter) has near-zero fine-detail energy and gets NO clarity — an
 #     ungated pass turns hue_shift's faint gradient steps into visible contour
@@ -227,7 +227,7 @@ def hue_shift_clarity(arr: np.ndarray) -> np.ndarray:
 # had its red absorbed entirely and stays blue whatever the matrix does. So
 # "how blue is it after correction" is a free distance proxy, and reading it
 # off the corrected image makes the gate answer the question that matters:
-# did the colour correction succeed here? If so add local contrast; if not,
+# did the color correction succeed here? If so add local contrast; if not,
 # leave the haze alone — sharpened haze is what read as wrong.
 #
 # Why: on the 2026-08-16 label round the texture gate turned out to be
@@ -236,7 +236,7 @@ def hue_shift_clarity(arr: np.ndarray) -> np.ndarray:
 # energy is 1-8 L against a 0.4-1.2 ramp). A blinded 12-photo flip over
 # alternative gates (transmission / dark-channel, warmth, Weber contrast)
 # preferred the current variant on 1 of 12 and warmth on 5, so it is in for a
-# larger eval as its own variant rather than a silent retune. Colour is
+# larger eval as its own variant rather than a silent retune. Color is
 # still untouched (a*/b* pass through) and it is photo-only like its sibling.
 
 CLARITY_NEAR_B_LO = -25.0   # pooled b* at/below which no clarity (still blue)

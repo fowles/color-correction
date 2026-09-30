@@ -187,7 +187,7 @@ def run(args):
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="underwater-color",
-        description="Correct the colour of underwater photos and video.",
+        description="Correct the color of underwater photos and video.",
         epilog="Run `underwater-color init` once to fetch the DICAM checkpoint.")
 
     p.add_argument("files", nargs="*", help="image or video files to correct")

@@ -5,10 +5,10 @@ forms of the methods that have one.
 Leaf module — stdlib and numpy only, plus correct.py for the two parameter
 functions. A correction that can be expressed as one ffmpeg filter is baked
 once per clip from sampled frames and frozen for its whole length: per-frame
-estimation makes the colour breathe.
+estimation makes the color breathe.
 
 Container introspection (duration, dimensions, camera identity) is
-deliberately NOT here — that is the caller's domain, not colour's. The one
+deliberately NOT here — that is the caller's domain, not color's. The one
 exception is the tiny ``probe`` below: it exists only so ``sample_frames``
 can learn a clip's duration/dimensions and so tests can verify what
 ``transcode``/``extract_poster`` actually produced, and it deliberately reads
@@ -182,7 +182,7 @@ def _scale_filter(max_height: int) -> str:
 def transcode(src: Path, dst: Path, *, crf: int = 23, max_height: int = 1080,
               encoder: str = "libx264", vfilter: str | None = None,
               created: datetime | None = None) -> None:
-    """Encode a web-playable MP4: H.264 + AAC, faststart, optional colour filter."""
+    """Encode a web-playable MP4: H.264 + AAC, faststart, optional color filter."""
     chain = [_scale_filter(max_height)]
     if vfilter:
         chain.append(vfilter)

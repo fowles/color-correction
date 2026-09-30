@@ -52,7 +52,7 @@ def _noise_floor_red(h=64, w=64):
 
 def test_channel_stretch_does_not_amplify_a_noise_floor_channel():
     """A channel spanning only the noise floor must not be stretched to full
-    range: doing so turns +-1 LSB of sensor noise into gross colour speckle."""
+    range: doing so turns +-1 LSB of sensor noise into gross color speckle."""
     arr = _noise_floor_red()
     out = channel_stretch(arr)
 
@@ -375,7 +375,7 @@ def test_hue_shift_clarity_leaves_smooth_open_water_alone():
     assert diff.max() <= 1
 
 
-def test_hue_shift_clarity_widens_l_spread_but_leaves_colour_untouched():
+def test_hue_shift_clarity_widens_l_spread_but_leaves_color_untouched():
     """On texture the L p99-p1 spread must rise (that is the point), while
     a*/b* stay hue_shift's."""
     from underwater_color.correct import hue_shift, hue_shift_clarity
@@ -438,7 +438,7 @@ def test_hue_shift_clarity_near_gates_blue_regions_but_not_warm_ones():
     # near: warm half matches hue-shift-clarity, blue half matches hue-shift
     assert np.abs(L(hn) - L(hc))[warm].mean() < 0.15
     assert np.abs(L(hn) - L(hs))[blue].mean() < 0.15
-    # colour untouched, as for the sibling (the saturated blue half round-trips
+    # color untouched, as for the sibling (the saturated blue half round-trips
     # through uint8 RGB a touch more coarsely than the reef fixture alone)
     assert np.abs(_lab(hn)[..., 1:] - _lab(hs)[..., 1:]).max() <= 2.5
 

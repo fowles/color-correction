@@ -20,9 +20,9 @@ missing ffmpeg is reported at runtime.
 | --- | --- |
 | `channel-stretch` | Per-channel percentile histogram stretch (0.5–99.5 → 0–255), gain capped at 6.0 so a near-empty channel is not amplified into speckle. |
 | `hue-shift` | A closed form of Dive+: one global 3×3 matrix rebuilding red as a hue-shifted mix of all three channels, the angle chosen from the frame's mean red, then a 0.4/99.9 per-channel stretch. |
-| `hue-shift-clarity` | `hue-shift`, then a texture-gated local-contrast pass on CIELAB **L** only — colour never moves, and flat open water gets none. |
+| `hue-shift-clarity` | `hue-shift`, then a texture-gated local-contrast pass on CIELAB **L** only — color never moves, and flat open water gets none. |
 | `hue-shift-clarity-near` | `hue-shift-clarity` with the clarity additionally gated by post-correction warmth (pooled b\*), so still-blue far regions and haze are left alone. |
-| `ancuti-fusion` | Ancuti colour-balance-and-fusion: red compensation, gray-world white balance, then a multi-scale pyramid fusion of a sharpened and a gamma-corrected input. |
+| `ancuti-fusion` | Ancuti color-balance-and-fusion: red compensation, gray-world white balance, then a multi-scale pyramid fusion of a sharpened and a gamma-corrected input. |
 | `dicam` | The one learned method — the DICAM network, run at a capped working size with the correction transferred to native resolution. Needs the `[dicam]` extra and a one-off `underwater-color init`. |
 
 The default menu is `hue-shift-clarity`, `hue-shift-clarity-near`,
