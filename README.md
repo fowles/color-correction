@@ -22,12 +22,14 @@ missing ffmpeg is reported at runtime.
 
 | method | what it does |
 | --- | --- |
-| `channel-stretch` | Per-channel percentile histogram stretch (0.5–99.5 → 0–255), gain capped at 6.0 so a near-empty channel is not amplified into speckle. |
-| `hue-shift` | One global 3×3 color matrix (per-pixel, no spatial filtering) rebuilding red as a hue-shifted mix of all three channels, the angle chosen from the frame's mean red, then a 0.4/99.9 per-channel stretch. |
-| `hue-shift-clarity` | `hue-shift`, then a texture-gated local-contrast pass on CIELAB **L** only — color never moves, and flat open water gets none. |
-| `hue-shift-clarity-near` | `hue-shift-clarity` with the clarity additionally gated by post-correction warmth (pooled b\*), so still-blue far regions and haze are left alone. |
-| `ancuti-fusion` | Ancuti color-balance-and-fusion: red compensation, gray-world white balance, then a multi-scale pyramid fusion of a sharpened and a gamma-corrected input. |
-| `dicam` | The one learned method — the DICAM network, run at a capped working size with the correction transferred to native resolution. Needs the `[dicam]` extra and a one-off `underwater-color init`. |
+| [`channel-stretch`](docs/methods/channel-stretch.md) | Per-channel percentile histogram stretch (0.5–99.5 → 0–255), gain capped at 6.0 so a near-empty channel is not amplified into speckle. |
+| [`hue-shift`](docs/methods/hue-shift.md) | One global 3×3 color matrix (per-pixel, no spatial filtering) rebuilding red as a hue-shifted mix of all three channels, the angle chosen from the frame's mean red, then a 0.4/99.9 per-channel stretch. |
+| [`hue-shift-clarity`](docs/methods/hue-shift-clarity.md) | `hue-shift`, then a texture-gated local-contrast pass on CIELAB **L** only — color never moves, and flat open water gets none. |
+| [`hue-shift-clarity-near`](docs/methods/hue-shift-clarity-near.md) | `hue-shift-clarity` with the clarity additionally gated by post-correction warmth (pooled b\*), so still-blue far regions and haze are left alone. |
+| [`ancuti-fusion`](docs/methods/ancuti-fusion.md) | Ancuti color-balance-and-fusion: red compensation, gray-world white balance, then a multi-scale pyramid fusion of a sharpened and a gamma-corrected input. |
+| [`dicam`](docs/methods/dicam.md) | The one learned method — the DICAM network, run at a capped working size with the correction transferred to native resolution. Needs the `[dicam]` extra and a one-off `underwater-color init`. |
+
+Each method's doc covers how it works and the paper or code it comes from.
 
 The default menu is `hue-shift-clarity`, `hue-shift-clarity-near`,
 `hue-shift`. **Order is precedence**: the first entry a photo actually has is

@@ -289,3 +289,12 @@ def test_every_file_the_worker_fetches_exists_where_pages_serves_it():
     assert "../underwater_color/correct.py" in urls  # anti-vacuity
     missing = [u for u in urls if not (ROOT / "web" / u).is_file()]
     assert not missing, f"web/worker.js fetches missing file(s): {missing}"
+
+
+def test_every_generated_method_has_a_doc():
+    """Each method's doc says how it works and cites its primary source."""
+    from underwater_color.correct import GENERATED_METHODS
+    assert GENERATED_METHODS  # anti-vacuity
+    missing = [m for m in GENERATED_METHODS
+               if not (ROOT / "docs" / "methods" / f"{m}.md").is_file()]
+    assert not missing, f"method(s) with no docs/methods/<name>.md: {missing}"

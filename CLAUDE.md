@@ -68,6 +68,10 @@ reads it that way). Reordering it changes which correction the world sees.
 variant on 1 / 0 photos, and dropping both left top-1 selection unchanged.
 **Do not re-add them.**
 
+**Every `GENERATED_METHODS` entry has `docs/methods/<name>.md`**, citing the
+primary source it comes from or saying it is original to this library.
+`test_every_generated_method_has_a_doc` catches a missing one.
+
 ## Algorithms
 
 - **`hue_shift` is one GLOBAL 3×3 color matrix plus a stretch**: red is
