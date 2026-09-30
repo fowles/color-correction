@@ -69,9 +69,8 @@ variant on 1 / 0 photos, and dropping both left top-1 selection unchanged.
 
 - **`hue_shift` is one GLOBAL 3×3 color matrix plus a stretch**: red is
   reconstructed as a hue-shifted mix of all three channels
-  (`_hue_shift_row(h)`, the `hue_shift_red` row of
-  bornfree/dive-color-corrector, MIT — a rotation of the red primary about
-  the luma axis) with G/B untouched and the angle `h` interpolated from the
+  (`_hue_shift_row(h)`, the red row of the standard Rec.601-luma
+  hue-rotation matrix — a rotation of the red primary about the gray axis) with G/B untouched and the angle `h` interpolated from the
   frame's mean red (~90° when red-starved, ~20° when already red), followed
   by a 0.4/99.9 per-channel percentile stretch. The angle table and
   percentiles were fitted to 160 hand-corrected pairs. Red is *synthesised*

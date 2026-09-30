@@ -61,10 +61,10 @@ def channel_stretch(arr: np.ndarray) -> np.ndarray:
 # One GLOBAL 3x3 color matrix, applied identically to every pixel, in two steps:
 #
 #   1. Red reconstruction. R' = clip(a*R + b*G + c*B), with G and B passed
-#      through untouched. (a, b, c) is the "hue_shift_red" row of
-#      bornfree/dive-color-corrector (MIT,
-#      https://github.com/bornfree/dive-color-corrector): the red primary
-#      rotated by an angle h about the luma axis. The angle is looked up from
+#      through untouched. (a, b, c) is the red row of the standard
+#      hue-rotation color matrix built on Rec.601 luma weights
+#      (0.299/0.587/0.114): the red primary rotated by an angle h about the
+#      gray axis. The angle is looked up from
 #      the frame's mean red (HUE_SHIFT_MEAN_RED -> HUE_SHIFT_ANGLES,
 #      piecewise-linear): a red-starved frame gets ~90 degrees, where green
 #      feeds red and blue is subtracted; an already-red frame gets ~20.
@@ -90,9 +90,9 @@ HUE_SHIFT_ANGLES = (92.0, 90.0, 81.0, 78.0, 77.0, 76.0, 62.0, 20.0)
 
 
 def _hue_shift_row(h: float) -> tuple[float, float, float]:
-    """(a, b, c) such that R' = a*R + b*G + c*B — the hue_shift_red row from
-    bornfree/dive-color-corrector, a rotation of the red primary about the
-    luma axis. h=0 is the identity (1, 0, 0); at large h green feeds red
+    """(a, b, c) such that R' = a*R + b*G + c*B — the red row of the standard
+    Rec.601-luma hue-rotation matrix, a rotation of the red primary about the
+    gray axis. h=0 is the identity (1, 0, 0); at large h green feeds red
     and blue is subtracted (c < 0)."""
     u = np.cos(np.radians(h))
     w = np.sin(np.radians(h))
