@@ -67,8 +67,17 @@
     position: absolute; inset: 0; display: grid; place-items: center;
     color: var(--muted); font-size: .9rem;
   }
-  .meta { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 10px 12px; }
-  .meta .right { display: flex; gap: 10px; align-items: baseline; margin-left: auto; white-space: nowrap; }
+  /* Two rows: method | time, then docs | download, the right column
+     right-aligned. Placed explicitly so a hidden docs link leaves its cell
+     empty instead of pulling download left. */
+  .meta {
+    position: relative; display: grid; grid-template-columns: 1fr auto;
+    align-items: baseline; gap: 4px 8px; padding: 10px 12px;
+  }
+  .meta .head { grid-area: 1 / 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; min-width: 0; }
+  .meta .ms { grid-area: 1 / 2; justify-self: end; white-space: nowrap; }
+  .meta .docs { grid-area: 2 / 1; justify-self: start; }
+  .meta a[download] { grid-area: 2 / 2; justify-self: end; }
   .name { white-space: nowrap; font-weight: 600; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9rem; }
   .approx { color: var(--muted); font-size: .85rem; cursor: help; }
   /* Drawn by the page, not a title attribute: the native tooltip doesn't
@@ -210,7 +219,7 @@ function makeTile(name, { docs = null, approximate = null } = {}) {
   el.className = "tile";
   el.innerHTML = `
     <button class="frame" type="button"><canvas></canvas><div class="pending">waiting…</div></button>
-    <div class="meta"><span class="name"></span><span class="right"><span class="ms"></span><a class="docs" target="_blank" rel="noopener" hidden>docs</a><a download aria-disabled="true">download</a></span></div>
+    <div class="meta"><span class="head"><span class="name"></span></span><span class="ms"></span><a class="docs" target="_blank" rel="noopener" hidden>docs</a><a download aria-disabled="true">download</a></div>
     <div class="err" hidden></div>`;
   el.querySelector(".name").textContent = name;
   if (docs) {
