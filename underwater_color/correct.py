@@ -58,18 +58,25 @@ def channel_stretch(arr: np.ndarray) -> np.ndarray:
 
 # --- hue-shift ---------------------------------------------------------------
 #
-# A closed form of Dive+, the hand correction labelers approve 91% of the time.
-# Reverse-engineered on 2026-08-15 from 160 original->Dive+ pairs in this
-# library: Dive+ is one GLOBAL 3x3 color matrix + offset (a free linear fit
-# reproduces it to 1.1 RMSE with no spatial structure left in the residual),
-# and that matrix decomposes into (1) red reconstructed as a hue-shifted mix of
-# all three channels — the "hue_shift_red" row of bornfree/dive-color-corrector
-# (MIT, https://github.com/bornfree/dive-color-corrector) — with green and blue
-# left diagonal, followed by (2) a per-channel level stretch. The parameter
-# rules below (the mean-red -> angle lookup, the 0.4/99.9 percentiles) were
-# fitted against Dive+ output here: the closed form reproduces real Dive+ at
-# median 5.2 RMSE on the fitted pairs and 4.2 on 60 held-out pairs (p90 ~11-24),
-# against 23-30 for a pure per-channel stretch (~channel_stretch). A fixed
+# One GLOBAL 3x3 color matrix, applied identically to every pixel, in two steps:
+#
+#   1. Red reconstruction. R' = clip(a*R + b*G + c*B), with G and B passed
+#      through untouched. (a, b, c) is the "hue_shift_red" row of
+#      bornfree/dive-color-corrector (MIT,
+#      https://github.com/bornfree/dive-color-corrector): the red primary
+#      rotated by an angle h about the luma axis. The angle is looked up from
+#      the frame's mean red (HUE_SHIFT_MEAN_RED -> HUE_SHIFT_ANGLES,
+#      piecewise-linear): a red-starved frame gets ~90 degrees, where green
+#      feeds red and blue is subtracted; an already-red frame gets ~20.
+#   2. Per-channel level stretch. Each channel's HUE_SHIFT_LOW_PCT /
+#      HUE_SHIFT_HIGH_PCT percentiles, measured AFTER step 1, map to 0 / 255.
+#
+# The angle table and the 0.4/99.9 percentiles were fitted on 2026-08-15 to
+# 160 hand-corrected original->corrected pairs in this library, which a free
+# linear fit showed to be a single global matrix + offset (1.1 RMSE, no
+# spatial structure left in the residual). This form matches them at median
+# 5.2 RMSE on the fitted pairs and 4.2 on 60 held-out pairs (p90 ~11-24),
+# against 23-30 for a pure per-channel stretch (~channel_stretch); a fixed
 # h=80 still lands at 5.3-5.9. Red is *synthesised* from green/blue rather than
 # gained, which is why it needs no MAX_CHANNEL_GAIN and is markedly less noisy
 # than channel_stretch on red-starved frames.
@@ -124,8 +131,9 @@ def hue_shift_params(arr: np.ndarray) -> tuple[tuple[float, float, float],
 
 
 def hue_shift(arr: np.ndarray) -> np.ndarray:
-    """Dive+ closed form: hue-shifted red reconstruction, then a per-channel
-    [HUE_SHIFT_LOW_PCT, HUE_SHIFT_HIGH_PCT] -> [0, 255] stretch. uint8 in/out."""
+    """Red rebuilt as a luma-axis rotation of the red primary (angle from the
+    frame's mean red), then a per-channel [HUE_SHIFT_LOW_PCT,
+    HUE_SHIFT_HIGH_PCT] -> [0, 255] stretch. uint8 in/out."""
     row, los, his = hue_shift_params(arr)
     out = (_mix_red(arr, row) - los) * (255.0 / (his - los))
     return np.clip(out, 0, 255).astype(np.uint8)

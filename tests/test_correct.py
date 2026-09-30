@@ -90,8 +90,9 @@ def test_generated_methods_are_exactly_the_six_that_earn_their_keep():
     # of the times shown (0% on noise-risk), never the sole approved variant
     # on more than 1/141 photos, and dropping both left the selector's top-1
     # unchanged while costing ~15 GB of the ~46 GB output tree. hue-shift
-    # was added the same day: a closed form of Dive+, the hand correction
-    # labelers approve 91% of the time. hue-shift-clarity (2026-08-16) is
+    # was added the same day: one global matrix rebuilding red as a
+    # hue-rotated mix of R/G/B, angle from mean red, then a per-channel
+    # stretch. hue-shift-clarity (2026-08-16) is
     # hue-shift plus a gated luminance-only clarity pass, in for a labeling
     # round. hue-shift-clarity-near (2026-08-17) is the same pass with the
     # gate also scaled by post-correction warmth (b*), so still-blue far
