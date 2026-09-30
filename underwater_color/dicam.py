@@ -132,22 +132,38 @@ def preflight() -> None:
         ) from e
 
 
-def enhance(arr: np.ndarray) -> np.ndarray:
-    """DICAM color correction via ratio-map transfer. Runs DICAM at a capped
-    working resolution to get a multiplicative color-correction ratio, upsamples
-    the smooth ratio to the original's native resolution, and applies it — so
-    the output keeps full detail while taking DICAM's color. uint8 HxWx3 (RGB)
-    in, uint8 HxWx3 out."""
+def work_input(arr: np.ndarray, longest: int = WORK_LONGEST) -> np.ndarray:
+    """``arr`` (uint8 HxWx3) resized so its longest side is at most
+    ``longest``, as the float32 HxWx3 in [0, 1] that DICAM takes."""
     import cv2
-    import torch
     h, w = arr.shape[:2]
-    scale = min(1.0, WORK_LONGEST / float(max(h, w)))
+    scale = min(1.0, longest / float(max(h, w)))
     if scale < 1.0:
         wh = (max(1, round(w * scale)), max(1, round(h * scale)))  # cv2 size = (W, H)
-        small = cv2.resize(arr, wh, interpolation=cv2.INTER_AREA)
-    else:
-        small = arr
-    small_f = small.astype(np.float32) / 255.0
+        arr = cv2.resize(arr, wh, interpolation=cv2.INTER_AREA)
+    return arr.astype(np.float32) / 255.0
+
+
+def transfer(arr: np.ndarray, small_f: np.ndarray,
+             out_small: np.ndarray) -> np.ndarray:
+    """Carry DICAM's color from the working resolution back to ``arr``'s:
+    the ratio of its output ``out_small`` to its input ``small_f`` (both
+    float HxWx3 in [0, 1]) is smooth, so it upsamples cleanly and is applied
+    to the full-res original, keeping native detail. Returns uint8 HxWx3."""
+    import cv2
+    h, w = arr.shape[:2]
+    ratio_small = np.clip((out_small + RATIO_EPS) / (small_f + RATIO_EPS), 0.0, RATIO_CLIP)
+    ratio_full = cv2.resize(ratio_small, (w, h), interpolation=cv2.INTER_LINEAR)
+    enhanced = np.clip(arr.astype(np.float32) * ratio_full, 0, 255)
+    return enhanced.astype(np.uint8)
+
+
+def enhance(arr: np.ndarray) -> np.ndarray:
+    """DICAM color correction via ratio-map transfer: DICAM runs on
+    work_input(arr), and transfer() applies its color at native resolution.
+    uint8 HxWx3 (RGB) in, uint8 HxWx3 out."""
+    import torch
+    small_f = work_input(arr)
     with _LOCK:
         net = _get_model()
         dev = next(net.parameters()).device if any(True for _ in net.parameters()) else _device()
@@ -155,9 +171,4 @@ def enhance(arr: np.ndarray) -> np.ndarray:
         with torch.no_grad():
             out = net(t).clamp(0.0, 1.0)
         out_small = out.squeeze(0).permute(1, 2, 0).cpu().numpy()  # HxWx3 in [0,1]
-    # multiplicative color-correction ratio at working resolution
-    ratio_small = np.clip((out_small + RATIO_EPS) / (small_f + RATIO_EPS), 0.0, RATIO_CLIP)
-    # upsample the smooth ratio to native res and apply to the full-res original
-    ratio_full = cv2.resize(ratio_small, (w, h), interpolation=cv2.INTER_LINEAR)
-    enhanced = np.clip(arr.astype(np.float32) * ratio_full, 0, 255)
-    return enhanced.astype(np.uint8)
+    return transfer(arr, small_f, out_small)

@@ -44,7 +44,8 @@ underwater_color/
   vendor/dicam/ the upstream DICAM network, with its own LICENSE and NOTICE
 web/            the static demo page: index.html (UI), worker.js (boots Pyodide
                 and runs correct.py off the main thread), glue.py (RGBA <->
-                numpy and the menu; unit-tested under CPython in test_web.py)
+                numpy and the menu; unit-tested under CPython in test_web.py),
+                dicam.onnx (DICAM for onnxruntime-web, from export_dicam.py)
 ```
 
 ## The method menu
@@ -131,14 +132,23 @@ primary source it comes from or saying it is original to this library.
   so no test needs the downloaded checkpoint or runs real inference.
   `test_dicam.py` opts out and drives the real loader with its own fakes.
 - **The web page runs the real `correct.py` in Pyodide**, not a port, so
-  `correct.py` (and `web/glue.py`) may import at module level only numpy,
-  cv2, the stdlib and `underwater_color.correct`. Anything else must either
-  be imported lazily inside the function that needs it (as `dicam_correct`
-  imports torch) or be added to `PACKAGES` in `web/worker.js`, and it must
-  exist in Pyodide. `test_the_browser_sources_import_only_what_the_worker_provides`
-  enforces this. The page offers every `GENERATED_METHODS` entry except the
-  ones in `glue.UNAVAILABLE` (only `dicam`), so a new method appears on the
-  page automatically.
+  `correct.py`, `dicam.py` and `web/glue.py` may import at module level only
+  numpy, cv2, the stdlib and `underwater_color.correct`/`.dicam`. Anything
+  else must either be imported lazily inside the function that needs it (as
+  `dicam.enhance` imports torch) or be added to `PACKAGES` in
+  `web/worker.js`, and it must exist in Pyodide.
+  `test_the_browser_sources_import_only_what_the_worker_provides` enforces
+  this. The page offers every `GENERATED_METHODS` entry except the ones in
+  `glue.UNAVAILABLE` (currently none), so a new method appears on the page
+  automatically.
+- **The page runs DICAM's network as `web/dicam.onnx` under onnxruntime-web**,
+  with `glue.py` running the library's own `dicam.work_input`/`transfer`
+  around it. It uses **512 px** (`glue.DICAM_WEB_LONGEST`), not 1024: memory
+  grows with pixel count, and wasm32 hits `bad_alloc` at 704×528. The ONNX file
+  is committed and records the checkpoint sha256 it was exported from.
+  Changing the checkpoint means re-running `web/export_dicam.py`, and
+  `test_the_committed_model_was_exported_from_the_pinned_checkpoint` fails
+  until you do.
 - **GitHub Pages serves the repo root from `main`** (branch mode, no
   workflow), so the page is at `/web/` there exactly as when serving the repo
   root locally, and the worker's `../underwater_color/correct.py` resolves in

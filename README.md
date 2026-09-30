@@ -85,15 +85,21 @@ Downloads the sha256-pinned DICAM checkpoint into
 
 ### In the browser
 
-`web/` is a static page: upload a photo and it shows every correction except
-`dicam` side by side. It runs this package's own `correct.py` in
+`web/` is a static page: upload a photo and it shows every correction side
+by side. It runs this package's own `correct.py` in
 [Pyodide](https://pyodide.org) inside a Web Worker, so the page is not a port:
 its output matches the library's (to within one level, from floating-point
-rounding). The photo never leaves the browser. Serve the **repo root**,
+rounding). `dicam` is the exception. torch has no Pyodide build, so the page
+runs the network as `web/dicam.onnx` under onnxruntime-web, at a 512 px
+working size instead of 1024 (the WASM heap can't hold more). Its output is
+about 1.4 levels from the library's on average, and 7 levels at the 99th
+percentile. After changing the checkpoint, regenerate the model with
+`uv run python web/export_dicam.py`. The photo never leaves the browser. Serve the **repo root**,
 because the worker fetches `../underwater_color/correct.py`:
 
     python -m http.server -d .     # then open http://localhost:8000/web/
 
 The published copy is GitHub Pages serving the repo root from `main`, laid
 out the same way. The first visit downloads about 30 MB (Python, numpy, OpenCV) from the
-jsDelivr CDN, which the browser then caches.
+jsDelivr CDN, plus about 8 MB for `dicam` (the model and onnxruntime-web). The
+browser then caches it.

@@ -43,6 +43,9 @@ underwater-color = "underwater_color.cli:main"
 
 [dependency-groups]
 dev = [
+    "onnx>=1.23.1",
+    "onnxruntime>=1.23.2",
+    "onnxscript>=0.7.2",
     "pytest",
     "pytest-xdist>=3.8.0",
     "torch>=2.14.0",

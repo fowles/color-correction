@@ -110,7 +110,8 @@
     Upload an underwater photo to see every correction from
     <code>underwater-color</code>. It all runs in your browser on the library's own
     Python code (via Pyodide), and your photo never leaves this page.
-    <code>dicam</code> is left out because it needs torch.
+    <code>dicam</code>'s network runs through onnxruntime-web at 512&nbsp;px rather
+    than the library's 1024&nbsp;px, so it differs slightly from the library's output.
   </p>
 
   <div class="controls">
@@ -131,8 +132,9 @@
   <div class="grid" id="grid"></div>
 
   <footer>
-    The first visit downloads about 30&nbsp;MB (Python, numpy, OpenCV). After that,
-    your browser caches it.
+    The first visit downloads about 30&nbsp;MB (Python, numpy, OpenCV), plus about
+    8&nbsp;MB for <code>dicam</code> (the model and onnxruntime). After that, your
+    browser caches it.
     Source: <a href="https://github.com/fowles/underwater-color">fowles/underwater-color</a>.
   </footer>
 </main>

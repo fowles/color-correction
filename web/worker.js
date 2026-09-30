@@ -2,6 +2,8 @@
 //
 // Runs the package's real correct.py inside Pyodide, off the main thread.
 // A module worker: Pyodide 314 refuses to boot in a classic one.
+// DICAM's network runs under onnxruntime-web instead (torch has no Pyodide
+// build), loaded on first use; glue.py does the Python around it.
 //
 // Protocol (main -> worker):  {type: "correct", id, width, height, buffer}
 // Protocol (worker -> main):  {type: "status", text}
@@ -18,8 +20,12 @@ const PACKAGES = ["numpy", "opencv-python"];
 // Relative to this file, so the page must be served from the repo root.
 const SOURCES = {
   "underwater_color/correct.py": "../underwater_color/correct.py",
+  "underwater_color/dicam.py": "../underwater_color/dicam.py",
   "glue.py": "glue.py",
 };
+
+// The wasm-only build: the page needs no WebGPU, and wasm is what was sized.
+const ORT_URL = "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.30.0/dist/ort.wasm.min.mjs";
 
 let glue = null;
 let latestId = 0;
@@ -50,6 +56,49 @@ const booted = boot().catch((e) => {
   throw e;
 });
 
+// model path (relative to this file) -> Promise<{ort, session}>
+const sessions = new Map();
+
+function loadModel(model) {
+  if (!sessions.has(model)) {
+    const p = import(ORT_URL).then(async (ort) => ({
+      ort, session: await ort.InferenceSession.create(model),
+    }));
+    p.catch(() => sessions.delete(model));  // let the next photo retry
+    sessions.set(model, p);
+  }
+  return sessions.get(model);
+}
+
+// DICAM: glue resizes to the working size, the ONNX model runs, and glue
+// carries its color back to full resolution. Returns RGBA bytes (a PyProxy).
+async function runDicam(pyodide, model, rgb) {
+  const { ort, session } = await loadModel(model);
+  const small = glue.dicam_input(rgb);
+  try {
+    const shape = small.shape;
+    const [h, w] = shape.toJs();
+    shape.destroy();
+    const packed = glue.nchw(small);
+    const bytes = packed.toJs();
+    packed.destroy();
+    const input = new ort.Tensor(
+      "float32", new Float32Array(bytes.buffer, bytes.byteOffset, bytes.byteLength / 4),
+      [1, 3, h, w]);
+    const { output } = await session.run({ input });
+    const data = output.data;
+    const out = pyodide.toPy(new Uint8Array(data.buffer, data.byteOffset, data.byteLength));
+    try {
+      return glue.dicam_finish(rgb, small, out);
+    } finally {
+      out.destroy();
+      output.dispose();
+    }
+  } finally {
+    small.destroy();
+  }
+}
+
 // Yield to the event loop so a newer image's message can arrive and
 // supersede the batch in flight.
 const yieldToEvents = () => new Promise((r) => setTimeout(r, 0));
@@ -63,13 +112,15 @@ onmessage = async ({ data }) => {
   const bytes = pyodide.toPy(new Uint8Array(data.buffer));
   const rgb = glue.rgb_from_rgba(bytes, width, height);
   bytes.destroy();
+  // Start fetching models now, so they download while the others compute.
+  for (const { model } of methods) if (model) loadModel(model).catch(() => {});
   try {
-    for (const { name } of methods) {
+    for (const { name, model } of methods) {
       await yieldToEvents();
       if (id !== latestId) return;
       const t0 = performance.now();
       try {
-        const out = glue.correct(name, rgb);
+        const out = model ? await runDicam(pyodide, model, rgb) : glue.correct(name, rgb);
         const buffer = out.toJs().buffer;
         out.destroy();
         postMessage(

@@ -201,16 +201,17 @@ def test_every_third_party_import_is_declared_in_pyproject():
 
 # --- the static web page ------------------------------------------------------
 #
-# web/worker.js ships only correct.py and web/glue.py into Pyodide, and loads
-# only the Pyodide packages in its PACKAGES list. A module-level import in
-# either file that the list does not cover (a new third-party dependency, or a
-# first-party import of video.py or dicam.py) breaks the page, while every
+# web/worker.js ships only correct.py, dicam.py and web/glue.py into Pyodide,
+# and loads only the Pyodide packages in its PACKAGES list. A module-level
+# import in any of them that the list does not cover (a new third-party
+# dependency, or a first-party import of video.py) breaks the page, while every
 # CPython test stays green. Imports inside functions are exempt: they run only
-# when that function is called, which is how dicam_correct gets away with
-# importing torch (the page never offers dicam).
+# when that function is called, which is how dicam.py gets away with importing
+# torch (the page runs DICAM's network under onnxruntime-web, never torch).
 
 WORKER_JS = ROOT / "web" / "worker.js"
-BROWSER_SOURCES = (PACKAGE_ROOT / "correct.py", ROOT / "web" / "glue.py")
+BROWSER_SOURCES = (PACKAGE_ROOT / "correct.py", PACKAGE_ROOT / "dicam.py",
+                   ROOT / "web" / "glue.py")
 
 
 def _worker_packages() -> set[str]:
@@ -239,13 +240,15 @@ def _module_level_imports(path: Path) -> set[str]:
 
 def test_the_browser_sources_import_only_what_the_worker_provides():
     packages = _worker_packages()
-    # The worker writes correct.py (and an empty __init__) and glue.py.
-    shipped = {"underwater_color", "underwater_color.correct", "glue"}
+    # The worker writes correct.py, dicam.py (and an empty __init__) and glue.py.
+    shipped = {"underwater_color", "underwater_color.correct",
+               "underwater_color.dicam", "glue"}
     imported = set()
     for path in BROWSER_SOURCES:
         imported |= _module_level_imports(path)
     # Anti-vacuity guard: both the scan and the package list saw something.
-    assert {"numpy", "cv2", "underwater_color.correct"} <= imported
+    assert {"numpy", "cv2", "underwater_color.correct",
+            "underwater_color.dicam"} <= imported
     assert packages
     missing = sorted(
         m for m in imported
@@ -260,10 +263,11 @@ def test_the_browser_sources_import_only_what_the_worker_provides():
 
 def test_the_worker_ships_the_files_the_scan_checks():
     """Anti-vacuity guard for the test above: if worker.js stopped shipping
-    either file under the name assumed there, the scan would be checking the
+    any file under the name assumed there, the scan would be checking the
     wrong thing."""
     src = WORKER_JS.read_text()
     assert '"underwater_color/correct.py": "../underwater_color/correct.py"' in src
+    assert '"underwater_color/dicam.py": "../underwater_color/dicam.py"' in src
     assert '"glue.py": "glue.py"' in src
 
 
