@@ -3,7 +3,7 @@
 Underwater photo and video color correction: closed-form and learned methods,
 numpy in and numpy out for stills, one clip-wide ffmpeg filter for video.
 
-**[Try it in your browser →](https://fowles.github.io/color-correction/web/)**
+**[Try it in your browser →](https://fowles.github.io/underwater-color/web/)**
 Upload a photo and compare every correction side by side. It runs locally,
 and nothing is uploaded ([details](#in-the-browser)).
 
